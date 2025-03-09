@@ -22,3 +22,5 @@ user.set_password("$DJANGO_SUPERUSER_PASSWORD")
 user.save()
 EOF
 fi
+
+gunicorn --bind 0.0.0.0:$PORT college.wsgi:application
