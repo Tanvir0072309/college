@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARDAR PATEL COLLEGE OF ADM. & MGT. | Admission Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #FF5722;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+            font-size: 1.5rem;
+        }
+
+        hr {
+            border: 2px solid #FF5722;
+            margin: 20px 0;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc7000;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .form-group > div {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .form-group > div {
+                min-width: 100%;
+            }
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #FF5722;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            border: 1px solid #FF5722;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        input[type="file"] {
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="file"]:focus {
+            border-color: #FF5722;
+            outline: none;
+        }
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #FF5722;
+            outline: none;
+        }
+
+
+        button {
+            padding: 16px;
+            font-size: 18px;
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #f4511e;
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px;
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="file"] {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>SARDAR PATEL COLLEGE OF ADM. & MGT.</h1>
+        <h2>Admission Form - Academic Year: 2024-25</h2>
+
+        <form method="POST" action="/submit_admission_form/"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Form Number and Date -->
+            <div class="form-group">
+                <div>
+                    <label for="form_no">Form No.</label>
+                    <input type="text" id="form_no" name="form_no" placeholder="Enter Form Number" required>
+                </div>
+                <div>
+                    <label for="form_date">Date</label>
+                    <input type="date" id="form_date" name="date" required>
+                </div>
+            </div>
+        
+            <!-- Class Selection -->
+            <div>
+                <label for="class">Class</label>
+                <select id="class" name="class" required>
+                    <option value="bba_g">BBA (General)</option>
+                    <option value="bca">BCA</option>
+                    <option value="bba_ism">BBA (ISM)</option>
+                </select>
+            </div>
+        
+            <!-- Student Details -->
+            <h2>Student Details</h2>
+            <hr>
+            <div class="form-group">
+                <div>
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Enter Full Name" required>
+                </div>
+                <div>
+                    <label for="father_name">Father’s / Husband’s Name</label>
+                    <input type="text" id="father_name" name="father_name" placeholder="Enter Father’s / Husband’s Name" required>
+                </div>
+                <div>
+                    <label for="father_occupation">Father’s / Husband’s Occupation</label>
+                    <input type="text" id="father_occupation" name="father_occupation" placeholder="Enter Occupation">
+                </div>
+                <div>
+                    <label for="mother_name">Mother’s Name</label>
+                    <input type="text" id="mother_name" name="mother_name" placeholder="Enter Mother’s Name" required>
+                </div>
+                <div>
+                    <label for="mother_occupation">Mother’s Occupation</label>
+                    <input type="text" id="mother_occupation" name="mother_occupation" placeholder="Enter Occupation">
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <div>
+                    <label for="nationality">Nationality</label>
+                    <select id="nationality" name="nationality" required>
+                        <option value="india">India</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="state">State:</label>
+                    <select id="state" name="state" required>
+                        <option value="">Select State</option>
+                        <!-- States will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="district">District:</label>
+                    <select id="district" name="district" required>
+                        <option value="">Select District</option>
+                        <!-- Districts will be populated based on selected state -->
+                    </select>
+                </div>
+                <div>
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <div>
+                    <label for="mobile">Student’s Mobile No.</label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+                </div>
+                <div>
+                    <label for="parent_mobile">Parent’s Mobile No.</label>
+                    <input type="tel" id="parent_mobile" name="parent_mobile" placeholder="Enter Parent’s Mobile Number" required>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <div>
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div>
+                    <label for="blood_group">Blood Group</label>
+                    <input type="text" id="blood_group" name="blood_group" placeholder="Enter Blood Group" required>
+                </div>
+            </div>
+        
+            <div>
+                <label for="race_religion">Race & Religion</label>
+                <select id="race_religion" name="race_religion" required>
+                    <option value="hindu">Hindu</option>
+                    <option value="muslim">Muslim</option>
+                    <option value="christian">Christian</option>
+                    <option value="sikh">Sikh</option>
+                    <option value="jain">Jain</option>
+                    <option value="buddhist">Buddhist</option>
+                    <option value="parsi">Parsi</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        
+            <div>
+                <label for="aadhar">Aadhar Card No.</label>
+                <input type="text" id="aadhar" name="aadhar" placeholder="Enter Aadhar Card No." required>
+            </div>
+        
+            <div>
+                <label for="email">E-Mail ID</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+            </div>
+        
+            <div>
+                <label for="caste">Caste</label>
+                <select id="caste" name="caste" required>
+                    <option value="sc">SC</option>
+                    <option value="sebc">SEBC / OBC</option>
+                    <option value="general">General</option>
+                    <option value="physically_handicapped">Physically Handicapped</option>
+                    <option value="muslim_minority">Muslim Minority</option>
+                    <option value="ews">EWS</option>
+                </select>
+            </div>
+        
+            <!-- Educational Details -->
+            <h2>Educational Details</h2>
+            <hr>
+            <div>
+                <label for="school_name">12th School Name</label>
+                <input type="text" id="school_name" name="school_name" placeholder="Enter School Name" required>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label for="school_district">District</label>
+                    <input type="text" id="school_district" name="school_district" placeholder="Enter District" required>
+                </div>
+                <div>
+                    <label for="school_city">School’s City Name</label>
+                    <input type="text" id="school_city" name="school_city" placeholder="Enter City Name" required>
+                </div>
+            </div>
+        
+            <div>
+                <label for="board">Board</label>
+                <select id="board" name="board" required>
+                    <option value="cbse">CBSE</option>
+                    <option value="icse">ICSE</option>
+                    <option value="state">State Board</option>
+                    <option value="ib">IB</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        
+            <div>
+                <label for="stream">Stream</label>
+                <select id="stream" name="stream" required>
+                    <option value="science">Science</option>
+                    <option value="commerce">Commerce</option>
+                    <option value="arts">Arts</option>
+                    <option value="vocational">Vocational</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <div>
+                    <label for="total_marks">12th School Exam Total Marks</label>
+                    <input type="number" id="total_marks" name="total_marks" placeholder="Enter Total Marks" required>
+                </div>
+                <div>
+                    <label for="obtained_marks">12th School Exam Obtained Marks</label>
+                    <input type="number" id="obtained_marks" name="obtained_marks" placeholder="Enter Obtained Marks" required>
+                </div>
+            </div>
+        
+            <div>
+                <label for="percentage">Percentage</label>
+                <input type="text" id="percentage" name="percentage" placeholder="Enter Percentage" required>
+            </div>
+        
+            <div class="form-group">
+                <div>
+                    <label for="place">Place</label>
+                    <input type="text" id="place" name="place" placeholder="Enter Place" required>
+                </div>
+                <div>
+                    <label for="form_date">Date</label>
+                    <input type="date" id="form_date" name="date" required>
+                </div>
+            </div>
+        
+            <!-- Document Upload Section -->
+            <div class="form-container">
+                <h2>Documents Upload Section</h2>
+                <hr>
+                <ul>
+                    <li>
+                        Photograph<br>
+                        <input type="file" name="photograph" id="photograph" accept="image/*,application/pdf">
+                    </li>
+                    <li>
+                        Application Form with Photograph<br>
+                        <input type="file" name="application_form" id="application_form_file" accept="image/*,application/pdf">
+                    </li>
+                    <li>
+                        Higher Secondary School Leaving Certificate<br>
+                        <input type="file" name="higher_secondary_certificate" id="higher_secondary_certificate" accept="image/*,application/pdf">
+                    </li>
+                    <li>
+                        Caste Certificate / Non-Creamy Layer Certificate (if necessary)<br>
+                        <input type="file" name="caste_certificate" id="caste_certificate" accept="image/*,application/pdf">
+                    </li>
+                    <li>
+                        S.S.C. and H.S.C. all Mark Sheets<br>
+                        <input type="file" name="ssc_hsc_marksheets" id="ssc_hsc_marksheets" accept="image/*,application/pdf">
+                    </li>
+                    <li>
+                        Aadhar Card<br>
+                        <input type="file" name="aadhar_card" id="aadhar_card" accept="image/*,application/pdf">
+                    </li>
+                </ul>
+            </div>
+        
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <footer>
+            <p>NOTE:</p>
+            <ul>
+                <li>Please read the instruction carefully before filling up related entries in the admission form.</li>
+                <li>After the last date of university admission, if the admission is cancelled, then FEES will not be refunded.</li>
+                <li>Provide all necessary documents wherever necessary:</li>
+                <ul>
+                    <li>10th Marksheet: 3 Copies</li>
+                    <li>12th Marksheet: 3 Copies</li>
+                    <li>School Leaving Certificate: 3 Copies</li>
+                    <li>Aadhar Card: 3 Copies</li>
+                    <li>Non-Creamy Layer Certificate (if applicable): 3 Copies (SEBC)</li>
+                    <li>Passport Size Photos: 3 Copies</li>
+                    <li>Affidavit for Gap (on Rs. 50 Stamp Paper): 3 Copies</li>
+                    <li>Caste Certificate (if applicable): 3 Copies</li>
+                </ul>
+            </ul>
+        </footer>
+    </div>
+<script>
+        const stateDistrictData = {
+            "Andhra Pradesh": [
+        "Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Nellore", "Prakasam", "Srikakulam", 
+        "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"
+    ],
+    "Arunachal Pradesh": [
+        "Tawang", "Itanagar", "Ziro", "Pasighat", "Bomdila", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kurung Kumey", 
+        "Lohit", "Lower Dibang Valley", "Lower Subansiri", "Namsai", "Papum Pare", "Tirap", "Upper Dibang Valley", "Upper Siang", "Upper Subansiri"
+    ],
+    "Assam": [
+        "Guwahati", "Jorhat", "Silchar", "Dibrugarh", "Tezpur", "Barpeta", "Bongaigaon", "Cachar", "Dhemaji", "Goalpara", 
+        "Golaghat", "Hailakandi", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", 
+        "Marigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "Tinsukia", "Udalguri"
+    ],
+    "Bihar": [
+        "Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga", "Araria", "Aurangabad", "Banka", "Buxar", "Jamui", "Jehanabad",
+        "Kaimur", "Katihar", "Khagaria", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Nalanda", "Nawada", "Purnia", 
+        "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali"
+    ],
+    "Chhattisgarh": [
+        "Raipur", "Bilaspur", "Durg", "Korba", "Jagdalpur", "Ambikapur", "Dantewada", "Kanker", "Kabirdham", "Raigarh",
+        "Rajnandgaon", "Jashpur", "Surguja", "Balod", "Baloda Bazar", "Bemetara", "Bijapur", "Gariaband", "Mungeli", "Narayanpur"
+    ],
+    "Goa": [
+        "North Goa", "South Goa"
+    ],
+    "Gujarat": [
+        "Ahmedabad", "Surat", "Rajkot", "Vadodara", "Bhavnagar", "Anand", "Banaskantha", "Bharuch", "Dahod", "Gandhinagar", 
+        "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mehsana", "Narmada", "Navsari", "Patan", "Porbandar", "Sabarkantha", 
+        "Sabar Kantha", "Surendranagar", "Tapi", "Valsad"
+    ],
+    "Haryana": [
+        "Gurugram", "Faridabad", "Panipat", "Ambala", "Karnal", "Hisar", "Rohtak", "Sonipat", "Yamunanagar", "Bhiwani",
+        "Fatehabad", "Jind", "Kaithal", "Kurukshetra", "Mahendragarh", "Mewat", "Palwal", "Panchkula", "Rewari", "Sirsa", "Charkhi Dadri"
+    ],
+    "Himachal Pradesh": [
+        "Shimla", "Manali", "Dharamshala", "Kullu", "Mandi", "Solan", "Kangra", "Hamirpur", "Bilaspur", "Una", "Chamba", 
+        "Sirmaur", "Lahaul and Spiti", "Kullu", "Solan", "Kangra", "Mandi"
+    ],
+    "Jharkhand": [
+        "Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh", "Giridih", "Deoghar", "Dumka", "Pakur", "Palamu", 
+        "Latehar", "Lohardaga", "Chatra", "Ramgarh", "Garhwa", "Simdega", "Khunti", "Sahibganj", "Koderma", "Hazaribagh"
+    ],
+    "Karnataka": [
+        "Bengaluru", "Mysuru", "Mangaluru", "Hubli", "Belagavi", "Ballari", "Bidar", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada",
+        "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi", "Kodagu", "Kolar", "Raichur", "Ramanagara",
+        "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Yadgir"
+    ],
+    "Kerala": [
+        "Thiruvananthapuram", "Kochi", "Kozhikode", "Kannur", "Thrissur", "Malappuram", "Pathanamthitta", "Kottayam", "Idukki", 
+        "Alappuzha", "Ernakulam", "Palakkad", "Wayanad", "Kollam", "Kozhikode", "Kasargod"
+    ],
+    "Madhya Pradesh": [
+        "Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Sagar", "Shivpuri", "Dewas", "Mandsaur", "Ratlam", 
+        "Satna", "Rewa", "Chhindwara", "Sehore", "Vidisha", "Tikamgarh", "Narsinghpur", "Betul", "Jhabua", "Khandwa", 
+        "Kshir", "Khargone", "Shahdol", "Damoh", "Seoni"
+    ],
+    "Maharashtra": [
+        "Mumbai", "Pune", "Nagpur", "Thane", "Nashik", "Aurangabad", "Kolhapur", "Solapur", "Jalgaon", "Sangli", 
+        "Ratnagiri", "Sindhudurg", "Amravati", "Yavatmal", "Wardha", "Bhandara", "Chandrapur", "Gadchiroli", "Akola",
+        "Washim", "Buldhana", "Nagpur", "Dhule", "Nandurbar", "Palghar", "Raigad"
+    ],
+    "Manipur": [
+        "Imphal East", "Imphal West", "Thoubal", "Bishnupur", "Chandel", "Churachandpur", "Senapati", "Tamenglong", "Ukhrul", 
+        "Jiribam", "Kangpokpi", "Kakching", "Tengnoupal"
+    ],
+    "Meghalaya": [
+        "East Khasi Hills", "West Khasi Hills", "Ri Bhoi", "West Jaintia Hills", "East Jaintia Hills", "South Garo Hills", "West Garo Hills", "North Garo Hills"
+    ],
+    "Mizoram": [
+        "Aizawl", "Lunglei", "Champhai", "Serchhip", "Lawngtlai", "Kolasib", "Mamit", "Hnahthial", "Khawzawl"
+    ],
+    "Nagaland": [
+        "Dimapur", "Kohima", "Mokokchung", "Mon", "Peren", "Phek", "Tuensang", "Wokha", "Zunheboto"
+    ],
+    "Odisha": [
+        "Bhubaneswar", "Cuttack", "Sambalpur", "Rourkela", "Berhampur", "Bargarh", "Balasore", "Kendrapara", "Koraput", 
+        "Mayurbhanj", "Nayagarh", "Jajpur", "Khurda", "Kandhamal", "Angul", "Puri", "Dhenkanal", "Ganjam", "Jagatsinghpur"
+    ],
+ "Punjab": [
+        "Amritsar", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Firozpur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", 
+        "Ludhiana", "Mansa", "Moga", "Muktsar", "Nawanshahr", "Patiala", "Rupnagar", "Sangrur", "Shahid Bhagat Singh Nagar", "Tarn Taran"
+    ],
+    "Rajasthan": [
+        "Jaipur", "Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", 
+        "Dausa", "Dholpur", "Dungarpur", "Hanumangarh", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", 
+        "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sri Ganganagar", "Tonk", "Udaipur"
+    ],
+    "Sikkim": [
+        "East Sikkim", "West Sikkim", "North Sikkim", "South Sikkim"
+    ],
+    "Tamil Nadu": [
+        "Chennai", "Coimbatore", "Madurai", "Trichy", "Salem", "Tirunelveli", "Erode", "Vellore", "Tiruvannamalai", "Thanjavur", 
+        "Karur", "Namakkal", "Dharmapuri", "Krishnagiri", "Ramanathapuram", "Cuddalore", "Villupuram", "Dindigul", "Thoothukudi", 
+        "Kanyakumari", "Nagapattinam", "Pudukkottai", "Tirupur", "Tiruchengode", "Sivaganga"
+    ],
+    "Telangana": [
+        "Hyderabad", "Warangal", "Khammam", "Nizamabad", "Karimnagar", "Mahabubnagar", "Medak", "Nalgonda", "Rangareddy", 
+        "Adilabad", "Kothagudem", "Jagtial", "Jangaon", "Bhadradri Kothagudem", "Suryapet", "Sangareddy", "Wanaparthy", 
+        "Nagarkurnool", "Peddapalli", "Mancherial", "Jagitial", "Mahabubabad"
+    ],
+    "Tripura": [
+        "Agartala", "West Tripura", "South Tripura", "Sepahijala", "Dhalai", "Unakoti", "North Tripura", "Khowai", "Gomati", 
+        "Sipahijala"
+    ],
+    "Uttar Pradesh": [
+        "Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Auraiya", "Azamgarh", "Baghpat", "Ballia", "Banda", "Barabanki", "Bareilly", "Basti", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Faizabad", 
+        "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddh Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", 
+        "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur", "Kaushambi", "Kushinagar", "Lakhimpur Kheri", 
+        "Lalitpur", "Lucknow", "Maharajganj", "Mainpuri", "Mathura", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Raebareli", 
+        "Rampur", "Shahjahanpur", "Siddharthnagar", "Sitapur", "Sultanpur", "Unnao", "Varanasi"
+    ],
+    "Uttarakhand": [
+        "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Udham Singh Nagar", "Almora", "Chamoli", "Champawat", "Pithoragarh", 
+        "Rudraprayag", "Tehri Garhwal", "Bageshwar", "Garhwal", "Uttarkashi"
+    ],
+    "West Bengal": [
+        "Kolkata", "Howrah", "Hooghly", "North 24 Parganas", "South 24 Parganas", "Birbhum", "Bankura", "Bardhaman", "Purulia", 
+        "Murshidabad", "Jalpaiguri", "Cooch Behar", "Alipurduar", "Maldah", "South Dinajpur", "Dakshin Dinajpur", "North Dinajpur", 
+        "Purba Medinipur", "Paschim Medinipur", "Koch Bihar", "Nadia"
+    ]
+        };
+
+        // Populate states in the dropdown
+        const stateSelect = document.getElementById('state');
+    const districtSelect = document.getElementById('district');
+    const photoUpload = document.getElementById('photoUpload');
+    const photoPreview = document.getElementById('photoPreview');
+
+    // Populate states in the dropdown
+    Object.keys(stateDistrictData).forEach(state => {
+        let option = document.createElement('option');
+        option.value = state;
+        option.textContent = state;
+        stateSelect.appendChild(option);
+    });
+
+    // When the state is selected, populate the districts
+    stateSelect.addEventListener('change', function() {
+        const selectedState = this.value;
+        districtSelect.innerHTML = '<option value="">Select District</option>'; // Reset district options
+
+        if (selectedState) {
+            const districts = stateDistrictData[selectedState];
+            const fragment = document.createDocumentFragment(); // Optimize DOM updates
+
+            districts.forEach(district => {
+                let option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                fragment.appendChild(option);
+            });
+
+            districtSelect.appendChild(fragment);
+        }
+    });
+
+    // Handle photo upload with validation
+    photoUpload.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (validTypes.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    photoPreview.innerHTML = ''; // Clear previous preview
+                    photoPreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please upload a valid image file (JPG, PNG, GIF)');
+            }
+        }
+        });
+</script>
+</body>
+
+</html>

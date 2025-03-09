@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'signin.css' %}">
+    <style>
+        /* Popup styles */
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            animation: slide-in 0.3s ease-out;
+            font-size: 14px;
+            width: 250px;
+        }
+
+        .popup h4 {
+            margin: 0;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .popup p {
+            margin: 0 0 15px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .popup-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .popup-buttons button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .popup-buttons .save {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .popup-buttons .save:hover {
+            background-color: #007bff;
+        }
+
+        .popup-buttons .cancel {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .popup-buttons .cancel:hover {
+            background-color: #e53935;
+        }
+
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h1>Welcome back</h1>
+            <p>Enter your username and password to sign in</p>
+            <form id="login-form" action="/signin/" method="POST">
+                {% csrf_token %}
+                
+                <!-- Username field for authentication -->
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" class="pro-input pro-agree" required>
+                <span id="username-error" class="error"></span>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <span id="password-error" class="error"></span>
+
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <label for="remember">Show Password</label>
+                </div>
+
+                <!-- Sign in button triggers form submission -->
+                <button type="submit" id="sign-in">Sign in</button>
+            </form>
+            <p class="signup-link">Don't have an account? <a href="/signup/">Sign up</a></p>
+        </div>
+        <div class="image-section"></div>
+    </div>
+
+    <!-- Popup for saving credentials -->
+    <div id="popup" class="popup">
+        <h4>Save Credentials?</h4>
+        <p>Do you want to save your username and password for future use?</p>
+        <div class="popup-buttons">
+            <button class="save" onclick="saveCredentials()">Save</button>
+            <button class="cancel" onclick="closePopup()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Get references to the form elements
+        const toggle = document.getElementById('toggle');
+        const passwordField = document.getElementById('password');
+        const signInButton = document.getElementById('sign-in');
+        const usernameField = document.getElementById('username');
+        const usernameError = document.getElementById('username-error');
+        const passwordError = document.getElementById('password-error');
+        const popup = document.getElementById('popup');
+        const form = document.getElementById('login-form');
+
+        // Toggle password visibility
+        toggle.addEventListener('change', () => {
+            passwordField.type = toggle.checked ? 'text' : 'password';
+        });
+
+        // Prevent form submission and show popup after validation
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();  // Prevent default form submission to handle via JavaScript
+
+            let isValid = true;
+
+            // Username validation
+            if (!usernameField.value) {
+                usernameError.textContent = "Please enter a valid username.";
+                isValid = false;
+            } else {
+                usernameError.textContent = "";
+            }
+
+            // Password validation
+            if (passwordField.value.length < 8) {
+                passwordError.textContent = "Password must be at least 8 characters.";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
+            // If validation passes, show the popup
+            if (isValid) {
+                popup.style.display = "block";
+                form.submit();  // Proceed with form submission if valid
+            }
+        });
+
+        // Close popup
+        function closePopup() {
+            popup.style.display = "none";
+        }
+
+        // Save credentials simulation (optional)
+        function saveCredentials() {
+            alert("Credentials saved successfully!");
+            closePopup();
+        }
+    </script>
+</body>
+</html>

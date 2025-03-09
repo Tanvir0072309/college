@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher - Add Exam Marks | SARDAR PATEL COLLEGE OF ADM. & MGT.</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            box-sizing: border-box;
+        }
+        nav {
+            background-color: #FF5722;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav li {
+            display: inline;
+            margin-right: 40px;
+        }
+        nav li:last-child {
+            margin-right: 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ffeb3b;
+        }
+        .form-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #FF5722;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        select, input[type="number"], input[type="text"] {
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #FF5722;
+            outline: none;
+        }
+        button {
+            padding: 16px;
+            font-size: 18px;
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #f4511e;
+        }
+        button:active {
+            transform: translateY(2px);
+        }
+        .table-container {
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #e0e0e0;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #FF5722;
+            color: white;
+        }
+        td input {
+            width: 80px;
+            text-align: center;
+            font-size: 16px;
+            padding: 8px;
+        }
+       
+       
+    </style>
+</head>
+<body>
+
+    <div class="form-container" class="form-container-1">
+        <h1>SARDAR PATEL COLLEGE OF ADM. & MGT.<br>Teacher Exam Marks Entry</h1>
+
+        <!-- Form for selecting class, semester, and subject -->
+        <form method="POST" id="marksForm" action="/list/">
+            {% csrf_token %}
+            
+            <!-- Class and Semester Selection -->
+            <label for="classSelection">Select Class:</label>
+            <select id="classSelection" name="class" required>
+                <option value="BCA" {% if class_name == 'BCA' %}selected{% endif %}>BCA</option>
+                <option value="BBA" {% if class_name == 'BBA' %}selected{% endif %}>BBA</option>
+                <option value="BBA-ISM" {% if class_name == 'BBA-ISM' %}selected{% endif %}>BBA-ISM</option>
+            </select>
+
+            <label for="semesterSelection">Select Semester:</label>
+            <select id="semesterSelection" name="semester" required>
+                <option value="1" {% if semester == '1' %}selected{% endif %}>Sem 1</option>
+                <option value="2" {% if semester == '2' %}selected{% endif %}>Sem 2</option>
+                <option value="3" {% if semester == '3' %}selected{% endif %}>Sem 3</option>
+                <option value="4" {% if semester == '4' %}selected{% endif %}>Sem 4</option>
+                <option value="5" {% if semester == '5' %}selected{% endif %}>Sem 5</option>
+                <option value="6" {% if semester == '6' %}selected{% endif %}>Sem 6</option>
+                <option value="7" {% if semester == '7' %}selected{% endif %}>Sem 7</option>
+                <option value="8" {% if semester == '8' %}selected{% endif %}>Sem 8</option>
+            </select>
+
+            <!-- Dynamically load subjects based on class -->
+            <label for="subjectSelection">Select Subject:</label>
+            <select id="subjectSelection" name="subject" required>
+                <!-- Subjects will be loaded dynamically here -->
+            </select>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Enrollment No</th>
+                            <th>Marks</th> <!-- Column for Marks Input -->
+                        </tr>
+                    </thead>
+                    <tbody id="studentsList">
+                        <!-- Students will be loaded dynamically here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit">Submit Marks</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const classSelect = document.getElementById('classSelection');
+            const semesterSelect = document.getElementById('semesterSelection');
+            const subjectSelect = document.getElementById('subjectSelection');
+            const studentsList = document.getElementById('studentsList');
+    
+            // Function to load subjects based on selected class and semester
+            function loadSubjects() {
+                const className = classSelect.value;
+                const semester = semesterSelect.value;
+    
+                fetch('/get_subjects/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({
+                        class_name: className,
+                        semester: semester
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    subjectSelect.innerHTML = '';
+                    data.subjects.forEach(subject => {
+                        const option = document.createElement('option');
+                        option.value = subject.id;
+                        option.textContent = subject.name;
+                        subjectSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching subjects:', error));
+            }
+    
+            // Function to load students based on selected class and semester
+            function loadStudents() {
+                const className = classSelect.value;
+                const semester = semesterSelect.value;
+    
+                fetch('/get_students/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({
+                        class_name: className,
+                        semester: semester
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    studentsList.innerHTML = '';
+                    data.students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.classList.add('student');
+                        row.innerHTML = `
+                            <td>${student.name}</td>
+                            <td>${student.enrollment_no}</td>
+                            <td><input type="number" class="marks" name="marks_${student.enrollment_no}" min="0" max="100" required data-enrollment="${student.enrollment_no}"></td>
+                        `;
+                        studentsList.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching students:', error));
+            }
+    
+            // Event listener to reload subjects and students on class or semester change
+            classSelect.addEventListener('change', function() {
+                loadSubjects();
+                loadStudents();
+            });
+    
+            semesterSelect.addEventListener('change', function() {
+                loadSubjects();
+                loadStudents();
+            });
+    
+            // Initial load of subjects and students
+            loadSubjects();
+            loadStudents();
+        });
+    </script>
+<style>
+    @media (max-width: 500px) {
+        .form-container{
+            margin:0px;
+            height:100vh;
+            padding:18px;
+        }
+        h1{
+            font-size:17px;
+        }
+        label{
+            font-size:14px;
+        }
+    }
+    
+</style>
+</body>
+</html>

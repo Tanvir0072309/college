@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher - Add Exam Marks | SARDAR PATEL COLLEGE OF ADM. & MGT.</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #FF5722;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #FF5722;
+            outline: none;
+        }
+
+        .add-subject-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+            background: linear-gradient(145deg, #6e7dff, #5560ea);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            width: 150px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .add-subject-btn:hover {
+            background: linear-gradient(145deg, #5560ea, #6e7dff);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3), -4px -4px 10px rgba(255, 255, 255, 0.7);
+            transform: scale(1.05);
+        }
+
+        .subject-input-container {
+            margin-bottom: 15px;
+        }
+
+        .added-subjects {
+            margin-top: 20px;
+        }
+
+        .subject-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .subject-item button {
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .subject-item button:hover {
+            background-color: #f4511e;
+        }
+
+        .subject-input {
+            display: none;
+            margin-top: 15px;
+        }
+
+        /* Style for the "Add" button next to the input */
+        .add-btn-next-to-input {
+            padding: 12px 20px;
+            font-size: 14px;
+            background: linear-gradient(145deg, #ff7f50, #ff5722); /* Orange gradient */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            margin-left: 10px; /* Space between input and button */
+        }
+
+        /* Hover effect for the "Add" button next to the input */
+        .add-btn-next-to-input:hover {
+            background: linear-gradient(145deg, #ff5722, #ff7f50); /* Reversed gradient on hover */
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3), -4px -4px 10px rgba(255, 255, 255, 0.7);
+            transform: scale(1.05); /* Slight enlargement on hover */
+        }
+
+        /* Style for the "Submit Marks" button */
+        .submit-marks-btn {
+            padding: 14px 25px;
+            font-size: 16px;
+            background: linear-gradient(145deg, #ff7f50, #ff5722); /* Orange gradient */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2), -2px -2px 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            width: 180px;
+            text-align: center;
+            margin-top: 20px;
+            align-self: center;
+        }
+
+        /* Hover effect for the "Submit Marks" button */
+        .submit-marks-btn:hover {
+            background: linear-gradient(145deg, #ff5722, #ff7f50); /* Reversed gradient on hover */
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3), -4px -4px 12px rgba(255, 255, 255, 0.7);
+            transform: scale(1.05); /* Slight enlargement on hover */
+        }
+        @media (max-width: 500px) {
+            .form-container{
+                margin:0px;
+                height:100vh;
+                padding:18px;
+            }
+            h1{
+                font-size:17px;
+            }
+            label{
+                font-size:14px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    
+    <div class="form-container">
+        <h1>SARDAR PATEL COLLEGE OF ADM. & MGT.<br>Teacher Exam Marks Entry</h1>
+
+        <form id="marksForm" action="/student_marks/" method="POST">
+            {% csrf_token %}
+            
+            <!-- Class and Semester Selection -->
+            <label for="classSelection">Select Class:</label>
+            <select id="classSelection" name="class_name" required onchange="handleClassSemesterChange()">
+                <option value="BCA">BCA</option>
+                <option value="BBA">BBA</option>
+                <option value="BBA-ISM">BBA-ISM</option>
+            </select>
+
+            <label for="semesterSelection">Select Semester:</label>
+            <select id="semesterSelection" name="semester" required onchange="handleClassSemesterChange()">
+                <option value="1">Sem 1</option>
+                <option value="2">Sem 2</option>
+                <option value="3">Sem 3</option>
+                <option value="4">Sem 4</option>
+                <option value="5">Sem 5</option>
+                <option value="6">Sem 6</option>
+                <option value="7">Sem 7</option>
+                <option value="8">Sem 8</option>
+            </select>
+
+
+            <div >
+                <label for="subjects">Enter Subjects (comma separated):</label>
+                <input type="text" id="subjects" name="subjects" placeholder="Subject 1, Subject 2, ...">
+
+                
+            </div>
+
+            <button type="submit" class="submit-marks-btn">Submit Marks</button>
+        </form>
+    </div>
+
+    
+
+</body>
+</html>

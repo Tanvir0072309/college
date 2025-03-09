@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    
+    <title>SPCAM Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .main-container {
+            padding-right: 5px;
+            padding-left: 10px;
+            margin-left: 20PX;
+        }
+        .project-table{
+            margin-left: 20px;
+            margin-bottom: 30px;
+        }
+   
+
+        .edit-card button:hover {
+        background-color: #45a049;
+        }
+
+        @media (max-width : 460px) {
+            .project-table{
+               margin-left: 20px;
+            }
+            .card-graph{
+                margin-left: 10px;
+                width: 88%;
+            }
+        }
+   
+        .project-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .project-table th {
+            text-align: left;
+            padding: 16px;
+            background-color: #f7f7f7;
+            color: #4a4a4a;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 1; /* Ensure the header is on top of the scrollable content */
+        }
+        .project-table td {
+            padding: 16px;
+            color: #5a5a5a;
+            vertical-align: middle;
+            border-bottom: 1px solid #eaeaea;
+            font-size: 14px;
+        }
+        .project-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        .project-table tr:last-child td {
+            border-bottom: none;
+        }
+        .project-table img {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        .project-table .company-name {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: #333;
+        }
+        .project-table .members img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: -8px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .project-table .budget {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+        .project-table .date {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .project-table .project-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .project-table .status-bar {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background-color: #eaeaea;
+            margin-top: 4px;
+        }
+        .project-table .status-bar .progress {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .project-table .status-bar .progress-60 {
+            width: 60%;
+            background-color: #f0ad4e;
+        }
+        .project-table .status-bar .progress-10 {
+            width: 10%;
+            background-color: #d9534f;
+        }
+        .project-table .status-bar .progress-100 {
+            width: 90%;
+            background-color: #5bc0de;
+        }
+    
+        /* Scrollable Container for Projects */
+        .scrollable-table {
+            height: 700px; /* Limit the visible height */
+            overflow-y: auto; /* Enable vertical scroll */
+        }        
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color:  #f97316;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            /* font-size: 15px; */
+            color: #131212;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 36px;
+            color: #818181;
+        }
+
+
+        .content {
+            margin-left: 10px;
+            padding: 20px;
+        }
+        @media screen and (max-width: 600px) {
+            .sidebar a {
+                font-size: 18px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-btn{
+                display: none;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .sidebar a {
+                font-size: 18px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media screen and (max-width: 990px) {
+            .sidebar a {
+                font-size: 18px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        .project-table {
+        width: 70%;
+        margin: 20px 20px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-table-heading {
+            margin-bottom: 20px;
+        }
+
+        .pmar {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .text-30 {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .scrollable-table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 12px;
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody td {
+            padding: 10px 12px;
+            vertical-align: middle;
+        }
+
+        .company-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .company-name img {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+        }
+
+        .members img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .budget, .date {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .pmar {
+                font-size: 1rem;
+            }
+
+            .text-30 {
+                font-size: 0.8rem;
+            }
+
+            thead th, tbody td {
+                font-size: 0.85rem;
+            }
+
+            .company-name img {
+                width: 20px;
+                height: 20px;
+            }
+
+            .members img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .budget, .date {
+                font-size: 0.85rem;
+            }
+            .members, .budget, td img{
+                display: none;
+            }
+            }
+
+        @media (max-width: 480px) {
+            .pmar {
+                font-size: 0.9rem;
+            }
+
+            .text-30 {
+                font-size: 0.75rem;
+            }
+
+            table {
+                font-size: 0.8rem;
+                width: 70%;
+            }
+
+            
+            .members img {
+                width: 25px;
+                height: 25px;
+            }
+
+            .company-name img {
+                width: 18px;
+                height: 18px;
+            }
+
+            tbody td {
+                padding: 8px 10px;
+            }
+            .project-table{
+                width: 85%;
+                height: 600px;
+                margin: 15px ;
+            }
+            .oders{
+                margin: 15px;
+            }
+            .main-container{
+                width: 90%;
+                margin: 0px;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+            .page-container{
+                padding-left: 0cap;        
+            }
+            .search-slide{
+                width: 90%;
+            }
+            .div-line{
+                display: inline;
+            }
+            .div-circle{
+            margin-left: 85%;
+            
+            }
+     
+        }
+        
+
+    </style>
+    <style>
+      
+    
+        .events {
+            width: 420px; /* Set the max-width to 38em */
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            animation: fadeIn 0.6s ease-out;
+        }
+    
+        .events-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    
+        .events-heading-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+        }
+    
+        .events-heading-subtitle {
+            font-size: 1em;
+            color: #8bc34a;
+        }
+    
+        .events-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+    
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.4s forwards;
+        }
+    
+        .event-icon {
+            font-size: 28px; /* Directly style the icon */
+            color: #4caf50;
+        }
+    
+        .event-details {
+            flex: 1;
+        }
+    
+        .event-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+    
+        .event-description {
+            font-size: 0.95em;
+            color: #666;
+        }
+    
+        .delete-event {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 7px 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+    
+        .delete-event:hover {
+            background-color: #e53935;
+        }
+    
+        .add-event-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.2em;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .add-event-button:hover {
+            background-color: #45a049;
+        }
+    
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            animation: fadeInModal 0.4s ease;
+        }
+    
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+    
+        .modal-content h3 {
+            margin-top: 0;
+        }
+    
+        .modal-content input, .modal-content button {
+            width: 100%;
+            margin: 12px 0;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    
+        .modal-content button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+    
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+    
+        .modal-close {
+            background-color: #f44336;
+            color: white;
+            margin-top: 10px;
+        }
+    
+        .modal-close:hover {
+            background-color: #e53935;
+        }
+    
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+    
+        @keyframes fadeInModal {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    
+        @media (max-width: 600px) {
+            .events-heading {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+    
+            .event-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .event-icon {
+                font-size: 24px;
+            }
+            .
+        }
+        @media (max-width: 500px) {
+            .events{
+                width:300px;
+                margin:19px;
+                
+            }
+        }
+       
+        .calendar{                     
+             height: 300px;
+             width: 350px;
+             background-color: hsl(0, 0%,94%); 
+             margin-top:5px;
+            margin-left:200px;
+              
+              
+           }
+           .left{
+             height: 300px;
+             width: 200px;
+             margin-left:-100px;  
+             background-color: #fff; 
+             border-top-left-radius:10px ; 
+             border-bottom-left-radius:10px ;
+             box-shadow: 0.1rem 0rem 0.5rem rgb(207, 198, 198);
+           }
+           .right{
+            width:150px;
+           }
+           @media (max-width: 1300px) {
+            .calendar{                     
+                height: 300px;
+                width: 350px;
+                background-color: hsl(0, 0%,94%); 
+                margin-top:5px;
+               margin-left:40px;
+                 
+                 
+              }
+              .left{
+                height: 300px;
+                width: 200px;
+                margin-left:-20px;  
+                background-color: #fff; 
+                border-top-left-radius:10px ; 
+                border-bottom-left-radius:10px ;
+                box-shadow: 0.1rem 0rem 0.5rem rgb(207, 198, 198);
+              }
+              .right{
+                width:150px;
+               }
+        } 
+        /* Hide content initially */
+#content {
+  display: none;
+}
+
+
+
+/* Center the spinner loader */
+.spinner {
+  --clr: #f97316;
+  margin:auto;
+  margin-top:20%;
+  --gap: 16px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.spinner span {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: var(--clr);
+  opacity: 0;
+}
+
+.spinner span:nth-child(1) {
+  animation: fade 1s ease-in-out infinite;
+}
+
+.spinner span:nth-child(2) {
+  animation: fade 1s ease-in-out 0.3s infinite;
+}
+
+.spinner span:nth-child(3) {
+  animation: fade 1s ease-in-out 0.6s infinite;
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0;
+  }
+}
+
+      </style>
+</head>
+
+<body>
+    <div class="spinner" id="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+<div id="content">
+    <div class="main-screen">
+        <div class="left-side">
+            <div class="container">
+                <div class="logo">
+                    <img src="{% static 'icons/dashboard-line.svg' %}" class="icon" alt="not found">
+                    <h1 class="sud">SPCAM Dashbord </h1>
+                </div>
+                <div class="pages">
+                    <a href="/index/" class="slide-link" >
+                        <div class="slide" id="slide-active">
+                          <div class="slide-icon-box" id="slide-icon-box-active">
+                            <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Dashboard</span>
+                        </div>
+                      </a>
+                      
+                      <a href="/reviwes/" class="slide-link">
+                        <div class="slide">
+                            <div class="slide-icon-box">
+                                <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                            </div>
+                            <a href="#" class="slide-text">Student Configration</a>
+                            <!-- Dropdown content -->
+                            <div class="dropdown-content" >
+                                <a href="/analitics/" class="slide-link" >
+                                    Student Analitics
+                                </a>
+                                <a href="/sprofile/">
+                                   Add Student Profile Details
+                                </a>
+                                <a href="/add_subjects/">
+                                   Student Subject Mapping
+                                </a>
+                               
+                                <a href="/v_student_profile/">
+                                    Student Profile Details
+                                </a>
+                                <a href="#"> 
+                                    Student Roll Number Generation
+                                </a>
+                               
+                            
+                            </div>
+                          </div>
+                      </a>
+                      <div >
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <a href="#" class="slide-text">Internal/Pratical Exam</a>
+                          <!-- Dropdown content -->
+                          <div class="dropdown-content">
+                              <a href="/add_marks/">
+                                Internal/Pratical Exam Marks Entry
+                              </a>
+                            
+                              <a href="subpage3.html">
+                                Internal Exam Marks Detalied Status
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/add_teacher/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Teachers Tables</span>
+                        </div>
+                      </a>
+                      <a href="/reviwes/" class="slide-link" >
+                        <div class="slide">
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Form Report</span>
+                        </div>
+                      </a>
+                   
+                    <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                    <a href="/profile/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Profile</span>
+                        </div>
+                      </a>
+                      <a href="/logout/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Log out</span>
+                        </div>
+                      </a>
+                    
+
+                    <div class="fix-ad">
+                        <div class="img-container">
+                            <div class="pro1">Tirupati Foundation Trust</div>
+                        </div>
+                        <div class="slide-x">
+                            <a href="#" class="pro-button">Visit our site</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="right-side"  style="padding-right: 0%; width: 100%;">
+            <div class="right-set">
+                <div class="main-container">
+                    <div class="search-slide" style="padding-left: 10px;">
+                        <div class="page-container">
+                            <div class="path">
+                                <div class="page-page-1">
+                                    Pages
+                                </div>
+                                <div class="page-page-2">
+                                    &nbsp;/ Dashboard
+                                </div>
+                            </div>
+                            <div class="page-dashboard">
+                                Dashboard
+                            </div>
+                        </div>
+                        <div class="page-container-1">
+                            <div class="page-container-1-1">
+                                <div class="dropdown-fade">
+                                    <button class="dropdown-btn">Today's Tasks</button>
+                                    <div class="dropdown-content">
+                                      <ul id="task-list">
+                                       
+                                      </ul>
+                                      <div>
+                                        <input type="text" id="new-task-input" placeholder="Enter new task" />
+                                        <button onclick="addTask()">Add</button>
+                                        
+                                      </div>
+                                    </div>
+                                </div>
+                                <input type="button" value="S P C A M" class="input-btn ob">
+                                <!-- <div class="sing-in">Log Out</div> -->
+                                <button id="menu-btn"
+                                style= "
+                                background-color: hsla(0, 0%, 94%, 0.925);
+                                padding-left: 0px;
+                                margin-top: 8px;
+                                margin-left: 0px;
+                               font-weight: bold;
+                                     ">☰</button>
+                                     <div id="mySidebar" class="sidebar-1" >
+                                        <div class="container-1 container-2" style=" 
+                                         padding: 0px;">
+                                            <div class="logo">
+                                             <img src="{% static 'icons/dashboard-line.svg' %}" class="slide-icons" alt="not found">
+                                                <h1 class="sud" style="margin-top: 5px;">SPCAM Dashboard</h1>
+                                            </div>
+                                            <div class="pages">
+                                                <a href="/index/" class="slide-link" id="slide-active" >
+                                                    <div class="slide-1" >
+                                                        
+                                                         <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found" style="margin-left:11px;">
+                                                        
+                                                        <span class="slide-text">Dashboard</span>
+                                                    </div>
+                                                </a>
+                                                
+                                                <div class="slide-1">
+                                                 <div class="slide-icon-bo-1x" style="margin-left: 10px;">
+                                                     <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                 </div>
+                                                 <div  class="slide-text">Student Configuration</div>
+                                                 <!-- Dropdown content -->
+                                                 <div class="dropdown-content-1">
+                                                     <a href="/analitics/" class="slide-link" >
+                                                         Student Analitics
+                                                     </a>
+                                                     <a href="/sprofile/">
+                                                        Add Student Profile Details
+                                                     </a>
+                                                     <a href="/add_subjects/">
+                                                        Student Subject Mapping
+                                                     </a>
+                                                    
+                                                     <a href="/v_student_profile/">
+                                                         Student Profile Details
+                                                     </a>
+                                                     <a href="#"> 
+                                                         Student Roll Number Generation
+                                                     </a>
+                                                 </div>
+                                             </div>
+                                             
+                                                <div>
+                                                    <div >
+                                                        <div class="slide-1" >
+                                                          <div  style="margin-left: 15px; margin-top: -5px; margin-right: 10px;" >
+     
+                                                             <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons icon-side" style="padding-left: 0px; margin-left: 0px;" alt="not found">
+     
+                                                          </div>
+                                                          <div href="#" class="slide-text sidetext" style="color: #000; margin-left: 0px; margin-right: 10px; margin-top: -1px;" >Internal/Pratical Exam</div>
+                                                          <!-- Dropdown content -->
+                                                          <div class="dropdown-content-1">
+                                                             <a href="/add_marks/">
+                                                                 Internal/Pratical Exam Marks Entry
+                                                               </a>
+                                                             
+                                                               <a href="subpage3.html">
+                                                                 Internal Exam Marks Detalied Status
+                                                               </a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <a href="/add_teacher/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -5px;">
+                                                       
+                                                         <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Teachers Tables</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/reviwes/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;" >
+                                                        
+     
+                                                         <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found" style="margin-top:5px;">
+                                                       
+                                                        <span class="slide-text" >Form Report</span>
+                                                    </div>
+                                                </a>
+                                
+                                                <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                                                <a href="/profile/" class="slide-link">
+                                                    <div class="slide">
+                                                        
+                                                         <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Profile</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/logout/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;">
+                                                        
+     
+                                                         <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                       
+                                                        <span class="slide-text" style="color: #131212;">Log out</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Close Button -->
+                                        <span class="close-btn" onclick="closeNav()" style="color: black;">×</span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="analitics-details">
+                        <div class="collage-account" style="margin-top: -40px;">
+                            <div class="collage-photo">
+                                <img src="{% static 'icons/spcamlogoimage.png' %}" class="collage-photo-1" alt="not found" style="margin-top: 20px;">
+                            </div>
+                            <div class="account-details">
+                                <div class="account-details-1">
+                                    SPCAM
+                                </div>
+                                <div class="account-details-2">
+                                    Tirupati Foundation Trust
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analitics">
+                            <div class="card-slide-1">
+                                <div class="card card-active">
+                                    <div class="slide-icon-box-1" id="slide-icon-box-1">
+                                        <img src="{% static 'icons/robot-3-line.svg' %}" class="slide-icons-1" alt="not found">
+                                    </div>
+                                    <div class="cart-detail-1">
+                                        <div class="amount">
+                                            {{ bca_count }}
+                                        </div>
+                                        <div class="per">
+                                            +55%
+                                        </div>
+                                    </div>
+                                    <div class="cart-detail-2"> BCA Students</div>
+                                </div>
+                                <div class="card">
+                                    <div class="slide-icon-box-1" id="slide-icon-box-1">
+                                        <img src="{% static 'icons/graduation-cap-line.svg' %}" class="slide-icons-1" alt="not found">
+                                    </div>
+                                    <div class="cart-detail-1">
+                                        <div class="amount">
+                                            {{ bba_count }}
+                                        </div>
+                                        <div class="per">
+                                            +124%
+                                        </div>
+                                    </div>
+                                    <div class="cart-detail-2">BBA Students</div>
+                                </div>
+                            </div>
+                            <div class="card-slide-2">
+                                <div class="card">
+                                    <div class="slide-icon-box-1" id="slide-icon-box-1">
+                                        <img src="{% static 'icons/graduation-cap-fill.svg' %}" class="slide-icons-1" alt="not found">
+                                    </div>
+                                    <div class="cart-detail-1">
+                                        <div class="amount">
+                                            {{ bba_ism_count }}
+                                        </div>
+                                        <div class="per">
+                                            +15%
+                                        </div>
+                                    </div>
+                                    <div class="cart-detail-2">ISM Students</div>
+                                </div>
+                                <div class="card">
+                                    <div class="slide-icon-box-1" id="slide-icon-box-1">
+                                        <img src="{% static 'icons/team-line.svg' %}" class="slide-icons-1" alt="not found">
+                                    </div>
+                                    <div class="cart-detail-1">
+                                        <div class="amount">
+                                        
+                                            {{ total_student_count }}
+                                        </div>
+                                        <div class="per">
+                                            +90%
+                                        </div>
+                                    </div>
+                                    <div class="cart-detail-2">Total Student</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-graph">
+                            <h1>&nbsp;32.4k</h1>
+                            <div class="div-line">
+                                <div class="par">
+                                    <p>&nbsp;&nbsp;&nbsp;Users this week</p>
+                                </div>
+                                <div class="div-circle"> </div>
+                            </div>
+                            <canvas id="userChart"></canvas>
+
+                        </div>
+                        <script src="script.js"></script>
+                    </div>
+                </div>
+                <div class="line-photo" >
+                    <div class="line-bar" style=" 
+                    margin: 20px auto;
+                    margin-left: 20px;
+                    ">
+                        <div class="line-bar-details">
+                            <div class="d1-1">
+                                Students Review
+                            </div>
+                            <div class="line">
+                                <div class="d1">
+                                    <div class="d1-1">
+                                        Positive Reviews
+                                    </div>
+                                    <div class="d1-2">
+                                        80%
+                                    </div>
+                                </div>
+                                <div class="d2">
+                                    <div class="d2-1">
+
+                                        <div class="d2-2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="d1">
+                                        <div class="d1-1">
+                                            Neutral Reviews
+                                        </div>
+                                        <div class="d1-2">
+                                            17%
+                                        </div>
+                                    </div>
+                                    <div class="d2">
+                                        <div class="d2-1">
+
+                                            <div class="d2-2-1">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="d1">
+                                        <div class="d1-1">
+                                            Negative Reviews
+                                        </div>
+                                        <div class="d1-2">
+                                            3%
+                                        </div>
+                                    </div>
+                                    <div class="d2">
+                                        <div class="d2-1">
+
+                                            <div class="d2-2-2">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="text-button">
+                            <div class="text-l">
+                                More than <b>3,000</b> students
+                                are filled form and almost <b>24,000</b> students have positive reviews.
+                            </div>
+                            <div class="button-l">
+                                <div class="slide-b">
+                                    <view href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view all
+                                        reviews</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="IMG-DIV">
+                        <div class='calendar' >
+                         <div class='left'  >
+                              <p id = 'date'>20</p>
+                              <p id = 'week-day'>Tuesday</p>
+                            </div>
+                            <div class='right' >
+                              <p id = 'month'>August</p>
+                              <p id = 'year'>2024</p>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="block-table">
+                <div class="project-order" >
+                    <div class="project-table">
+                        <div class="project-table-heading">
+                            <div class="pmar">
+                                <span class="d1-1">Projects <br></span>
+                                <span class="text-30">30 done this month</span>
+                            </div>
+                        </div>
+                        <div class="scrollable-table2" >
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr class="table-th">
+                                        <th>Team Name</th>
+                                        <th class="members">Members</th>
+                                        <th class="budget">Project Name</th>
+                                        <th>Submission Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-xd.svg' %}" alt="Logo">Code Weavers 
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/cute-bewildered-mixed-race-boy-600nw-2111544851.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/happy-brunette-woman-orange-shirt-looking-with-perfect-smile-isolated-blue-wall_171337-33112.avif' %}" alt="Member">
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">Dashboard</td>
+                                        <td class="date">2025-01-30</td>
+                                        {% comment %} <td class="date"><input type="date" style="
+                                            border:none;
+                                            "></td> {% endcomment %}
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-atlassian.svg' %}" alt="Logo">Akshar Developer
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/cute-bewildered-mixed-race-boy-600nw-2111544851.webp' %}" alt="Member">
+
+                                        </td>
+                                        <td class="budget">Time Table Schedule</td>
+                                        <td class="date">2025-01-30</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-slack.svg' %}" alt="Logo"> Chakra Innovation
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/cute-bewildered-mixed-race-boy-600nw-2111544851.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/happy-brunette-woman-orange-shirt-looking-with-perfect-smile-isolated-blue-wall_171337-33112.avif' %}" alt="Member">
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">Attendence</td>
+                                        <td class="date">2025-01-30</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-spotify.svg' %}" alt="Logo"> IOT Team
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/cute-bewildered-mixed-race-boy-600nw-2111544851.webp' %}" alt="Member">
+                                            
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">Traffic Light</td>
+                                        <td class="date">2025-01-30</td>
+                                    </tr>
+                                    {% comment %} <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-jira.svg' %}" alt="Logo">Add the New Pricing Page
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">$500</td>
+                                        <td class="date">2025-01-20</td>
+                                    </tr> {% endcomment %}
+                                    {% comment %} <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-invision.svg' %}" alt="Logo"> Redesign New Online Shop
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/happy-brunette-woman-orange-shirt-looking-with-perfect-smile-isolated-blue-wall_171337-33112.avif' %}" alt="Member">
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">$2,000</td>
+                                        <td class="date">2025-01-21</td>
+                                    </tr> {% endcomment %}
+                                    <!-- Additional 3 rows for a total of 10 records -->
+                                    {% comment %} <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-slack.svg' %}" alt="Logo"> Microsoft Update
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/happy-brunette-woman-orange-shirt-looking-with-perfect-smile-isolated-blue-wall_171337-33112.avif' %}" alt="Member">
+                                            <img src="{% static 'profile/hispanic-teenager-standing-over-blue-background-big-smile-face-pointing-hand-finger-to-side-looking-camera-306078302.webp' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">$8,000</td>
+                                        <td class="date">2025-01-22</td>
+                                    </tr> {% endcomment %}
+                                    {% comment %} <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-invision.svg' %}" alt="Logo"> Google Search Update
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">$10,000</td>
+                                        <td class="date">2025-01-23</td>
+                                    </tr> {% endcomment %}
+                                    {% comment %} <tr>
+                                        <td>
+                                            <div class="company-name">
+                                                <img src="{% static 'companise/logo-atlassian.svg' %}" alt="Logo"> Apple Watch Update
+                                            </div>
+                                        </td>
+                                        <td class="members">
+                                            <img src="{% static 'profile/smiling-african-american-guy-orange-sweater_116547-128945.avif' %}" alt="Member">
+                                        </td>
+                                        <td class="budget">$15,000</td>
+                                        <td class="date">2025-01-24</td>
+                                    </tr> {% endcomment %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="events">
+                        <div class="events-heading">
+                          <div class="events-heading-title">Yearly Events</div>
+                          <div class="events-heading-subtitle">Planned Events</div>
+                        </div>
+                        <div class="events-content">
+                          <div class="event-item">
+                            <div class="event-icon">🪔</div>
+                            <div class="event-details">
+                              <div class="event-title">New Year's Celebration</div>
+                              <div class="event-description">Scheduled for January 1, 2025</div>
+                            </div>
+                            <button class="delete-event" onclick="removeEvent(this)">Delete</button>
+                          </div>
+                        </div>
+                        <button class="add-event-button" onclick="displayModal()">Add Event</button>
+                      </div>
+                    
+                      <div class="modal" id="addEventModal"  style="z-index:100">
+                        <div class="modal-content">
+                          <h3>Add New Event</h3>
+                          <input type="text" id="newEventTitle"   style="width:94%;" placeholder="Event Title" required />
+                          <input type="text" id="newEventDescription" style="width:94%;" placeholder="Event Description" required />
+                          <input type="date" id="newEventDate" style="width:94%;" required />
+                          <button onclick="saveEvent()">Add Event</button>
+                          <button class="modal-close" onclick="hideModal()">Close</button>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+    <script>
+
+const date = document.getElementById('date');
+const weekDay = document.getElementById('week-day');
+const month = document.getElementById('month');
+const year = document.getElementById('year');
+
+const today = new Date();
+
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+date.innerHTML = today.getDate();
+weekDay.innerHTML = weekDays[today.getDay()];
+month.innerHTML = allMonths[today.getMonth()];
+year.innerHTML = today.getFullYear();
+
+         function showEditCard() {
+    document.getElementById('edit-card').style.display = 'flex';
+}
+
+function saveProfile() {
+    const name = document.getElementById('name').value;
+    const title = document.getElementById('title').value;
+    const fileInput = document.getElementById('profile-pic-input');
+    const profilePic = document.getElementById('profile-picture');
+
+    document.getElementById('pro-name-1').textContent = name;
+    document.getElementById('pro-name-2').textContent = title;
+
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            profilePic.src = e.target.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    document.getElementById('edit-card').style.display = 'none';
+}
+document.getElementById("indexpage").addEventListener("click", function() {
+  
+  window.location.href = "index.html";
+});
+function addTask() {
+  const taskInput = document.getElementById('new-task-input');
+  const taskText = taskInput.value.trim();
+
+  if (taskText !== "") {
+      // Create a new list item
+      const ul = document.getElementById('task-list');
+      const li = document.createElement('li');
+      const taskId = "task" + (ul.children.length + 1); // Generate a unique task id
+      const input = document.createElement('input');
+      input.type = "checkbox";
+      input.id = taskId;
+
+      const label = document.createElement('label');
+      label.htmlFor = taskId;
+      label.textContent = taskText;
+
+      li.appendChild(input);
+      li.appendChild(label);
+      ul.appendChild(li);
+      taskInput.value = ""; // Clear input field
+  }
+}
+  // Function to remove all tasks after 24 hours
+  setTimeout(function() {
+    const ul = document.getElementById('task-list');
+    ul.innerHTML = ""; // Clear all tasks
+}, 86400000);
+    </script>
+     <!-- <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+    </script> -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+
+        // Close the sidebar when clicking the close button
+        document.querySelector(".close-btn").addEventListener("click", closeNav);
+        function openNav() {
+    document.getElementById("mySidebar").style.width = "300px"; // Sidebar width when open
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0"; // Sidebar width when closed
+}
+
+document.getElementById("menu-btn").addEventListener("click", openNav);
+
+// Close the sidebar when clicking the close button
+document.querySelector(".close-btn").addEventListener("click", closeNav);
+
+
+
+
+    </script>
+    <script>
+        document.querySelectorAll('.slide-1').forEach(item => {
+            item.addEventListener('click', function () {
+                const dropdown = item.querySelector('.dropdown-content-1');
+    
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+    
+                // Toggle the clicked dropdown
+                if (dropdown) {
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    } else {
+                        dropdown.style.display = 'block';
+                    }
+                }
+            });
+        });
+    
+        // Close dropdown if clicking outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.slide-1')) {
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    d.style.display = 'none';
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        .main-container{
+            margin-left: 0px;
+        }
+
+        /* Sidebar styling */
+        .sidebar-1 {
+            height: 100%;
+            width: 0; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color:white;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 20px;
+            /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000; */
+            z-index: 2;
+        }
+        .sidebar-1 .container-1 {
+            padding: 10px 20px;
+        }
+     
+        .sidebar-1 .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        .slide-1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slide-icon-box {
+            margin-right: 10px;
+        }
+
+        .slide-icons {
+            width: 24px;
+            height: 24px;
+        }
+
+        .slide-text {
+            font-size: 14px;
+            /* color: black; */
+            font-weight: normal;
+        }
+
+        .dropdown-content {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            margin-left: 20px;
+        }
+
+        .dropdown-content a {
+            text-decoration: none;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .dropdown-content a:hover {
+            color: #000;
+        }
+        .sidebar-1 a:hover {
+            color: #f1f1f1;  /* Hover text color */
+            background-color: rgba(255, 255, 255, 0.2);  /* Light hover background */
+        }
+        /* Open state for sidebar */
+        .sidebar.open {
+            width: 300px; /* Default width for larger screens */
+        }
+
+        /* Menu button styling */
+        #menu-btn {
+            /* font-size: 20px; */
+            cursor: pointer;
+            /* background-color: hsla(0, 0%, 94%, 0.925); */
+            border: none;
+            /* padding: 10px 15px; */
+            position: absolute;
+            top: 10px;
+            right:10px;
+            cursor: pointer;
+            z-index: 2;
+            color: black;
+            margin-left: 20px;
+            display: none;
+            margin-top: 22px;
+        }
+        /* .close-btn {
+            display: block;
+            text-align: right;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        } */
+        .dropdown-content-1 {
+        display: none; /* Initially hidden */
+        flex-direction: column;
+        margin-left: 20px;
+        }
+        .slide-1 {
+            position: relative;
+            cursor: pointer;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .dropdown-content-1 {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 200px;
+        }
+        
+        .dropdown-content-1 a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+           
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+           
+        }
+        
+       
+    </style>
+    <script>
+        const ctx = document.getElementById('userChart').getContext('2d');
+
+const userChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+      data: [2000, 2500, 3000, 2800, 3500, 4000, 4200],
+      borderColor: '#f97316',
+      borderWidth: 4,
+      fill: false,
+      backgroundColor: 'rgba(0, 123, 255, 0.2)',
+      tension: 0.4,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: true,
+          color: '#d4c5d3'
+        }
+      },
+      y: {
+        grid: {
+          drawBorder: true,
+          color: '#d4c5d3'
+        },
+        ticks: {
+          display: false
+        }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  }
+});
+
+function toggleSwitch(element) {
+  element.classList.toggle('active');
+}
+
+
+    </script>
+    <script>
+        const eventContainer = document.querySelector('.events-content');
+        const addEventPopup = document.getElementById('addEventModal');
+    
+        function displayModal() {
+          addEventPopup.style.display = 'flex';
+        }
+    
+        function hideModal() {
+          addEventPopup.style.display = 'none';
+        }
+    
+        function saveEvent() {
+          const eventTitle = document.getElementById('newEventTitle').value;
+          const eventDescription = document.getElementById('newEventDescription').value;
+          const eventDate = document.getElementById('newEventDate').value;
+    
+          if (eventTitle && eventDescription && eventDate) {
+            const eventDiv = document.createElement('div');
+            eventDiv.className = 'event-item';
+    
+            eventDiv.innerHTML = `
+              <div class="event-icon">🪔</div>
+              <div class="event-details">
+                <div class="event-title">${eventTitle}</div>
+                <div class="event-description">Scheduled for ${eventDate}</div>
+              </div>
+              <button class="delete-event" onclick="removeEvent(this)">Delete</button>
+            `;
+    
+            eventContainer.appendChild(eventDiv);
+    
+            document.getElementById('newEventTitle').value = '';
+            document.getElementById('newEventDescription').value = '';
+            document.getElementById('newEventDate').value = '';
+    
+            hideModal();
+          } else {
+            alert('Please fill all fields.');
+          }
+        }
+    
+        function removeEvent(button) {
+          const eventItemDiv = button.parentElement;
+          eventContainer.removeChild(eventItemDiv);
+        }
+      </script>
+      <script>
+
+        window.onload = function() {
+            // Set a timeout to hide the loader and display content after 3 seconds
+            setTimeout(function() {
+                // Hide the loader
+                document.getElementById('loader').style.display = 'none';
+                
+                // Show the content
+                document.getElementById('content').style.display = 'block';
+            }, 3000); // 3000ms = 3 seconds
+        };
+        
+      </script>
+</body>
+
+</html>

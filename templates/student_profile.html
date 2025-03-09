@@ -1,0 +1,255 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <title>Student Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #ff6f00;
+            border-radius: 12px 12px 0 0;
+            color: white;
+        }
+
+        .header .college-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .details-section {
+            margin-top: 20px;
+        }
+
+        .details-section .detail {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .details-section .detail label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .details-section .detail p {
+            margin-top: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"] {
+            width: calc(100% - 30px);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff6f00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #e65c00;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+        @media(max-width: 500px){
+            .container{
+                display:block;
+                margin:0%;
+                width:89%;
+            }
+            .header{
+                margin-top:-10px;
+                margin-left:-10px;
+                margin-right:-10px;
+                border-radius: 10px;
+             }
+        }
+        @media(max-width: 800px){
+            .container{
+                display:block;
+                margin:0%;
+                width:89%;
+            }
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header with College Name -->
+        <div class="header">
+            <div class="college-name" class="form-head">SPCAM College</div>
+        </div>
+
+        <!-- Form Section for Enrollment Number -->
+        <center>
+            <div class="form-container">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <input type="text" name="enrollment_number" placeholder="Enter Enrollment Number" required>
+                    <center><button type="submit">View Details</button></center>
+                </form>
+            </div>
+        </center>
+
+        <!-- Error Message -->
+        {% if error_message %}
+        <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+
+        <!-- Student Details -->
+        {% if student %}
+        <div class="details-section">
+            <div class="detail">
+                <label>Name:</label>
+                <p>{{ student.name }}</p>
+            </div>
+            <div class="detail">
+                <label>Enrollment No:</label>
+                <p>{{ student.enrollment_no }}</p>
+            </div>
+            <div class="detail">
+                <label>Blood Group:</label>
+                <p>{{ student.blood_group }}</p>
+            </div>
+            <div class="detail">
+                <label>Class:</label>
+                <p>{{ student.class_name }}</p>
+            </div>
+            <div class="detail">
+                <label>Contact No:</label>
+                <p>{{ student.contact_no }}</p>
+            </div>
+            <div class="detail">
+                <label>Address:</label>
+                <p>{{ student.address }}</p>
+            </div>
+            <div class="detail">
+                <label>About Yourself:</label>
+                <p>{{ student.about_yourself }}</p>
+            </div>
+
+            <!-- Semester Dropdown Form -->
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="enrollment_number" value="{{ student.enrollment_no }}">
+                <label for="semester">Select Semester:</label>
+                <select name="semester" id="semester" required>
+                    <option value="">-- Select Semester --</option>
+                    <option value="1">Sem 1</option>
+                    <option value="2">Sem 2</option>
+                    <option value="3">Sem 3</option>
+                    <option value="4">Sem 4</option>
+                    <option value="5">Sem 5</option>
+                    <option value="6">Sem 6</option>
+                    <option value="7">Sem 7</option>
+                    <option value="8">Sem 8</option>
+                </select>
+                <button type="submit">View Marks</button>
+            </form>
+
+            <!-- Marks Table -->
+            {% if marks %}
+            <h3>Marks for Selected Semester:</h3>
+            <table>
+                <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+            </tr>
+            {% for mark in marks %}
+                <tr>
+                    <td>{{ mark.subject.name }}</td>
+                    <td>{{ mark.marks }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+            {% else %}
+                <p>No marks found for the selected semester.</p>
+            {% endif %}
+
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+
+
+</html>

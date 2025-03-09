@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+   
+<head>
+     
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js.css' %}">
+    <script src="{% static 'static/script.js' %}%}"></script>
+    {% comment %} <script src="script.js"></script> {% endcomment %}
+
+    
+    
+    <title>SPCAM Dashboard</title>
+    <style>
+        .main-container {
+            padding-right: 5px;
+            padding-left: 10px;
+            margin-left: 20PX;
+        }
+    </style>
+    <style>
+
+        .pro-btn-1 {
+            margin-top: 10px;
+        }
+
+        .edit-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 300px;
+            margin: 20px auto;
+            display: none;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .edit-card h2 {
+            margin-top: 0;
+        }
+
+        .edit-card label {
+            margin-top: 10px;
+        }
+
+        .edit-card input[type="text"],
+        .edit-card input[type="file"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        .edit-card button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #f97316;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-card button:hover {
+            background-color: #f97316;
+        }
+        .modal-content p{
+         
+            text-align: start;
+            font-size: 11px;
+        }
+        #teacher-card{
+            width:30%;
+        }
+        @media (max-width:400px){
+            #teacher-card{
+                width:83%;
+                margin:10px;
+                margin-left:10px;
+            }
+        }
+        
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="main-screen">
+        <div class="left-side">
+            <div class="container">
+                <div class="logo">
+                    <img src="{% static 'icons/dashboard-line.svg' %}" class="icon" alt="not found">
+                    <h1 class="sud">SPCAM Dashbord </h1>
+                </div>
+                <div class="pages">
+                    <a href="/index/" class="slide-link" >
+                        <div class="slide" >
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Dashboard</span>
+                        </div>
+                      </a>
+                      
+                      <a href="/reviwes/" class="slide-link">
+                        <div class="slide">
+                            <div class="slide-icon-box">
+                                <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                            </div>
+                            <a href="#" class="slide-text">Student Configration</a>
+                            <!-- Dropdown content -->
+                            <div class="dropdown-content">
+                                <a href="/analitics/" class="slide-link" >
+                                    Student Analitics
+                                </a>
+                                <a href="/sprofile/">
+                                   Add Student Profile Details
+                                </a>
+                                <a href="/add_subjects/">
+                                   Student Subject Mapping
+                                </a>
+                               
+                                <a href="/v_student_profile/">
+                                    Student Profile Details
+                                </a>
+                                <a href="#"> 
+                                    Student Roll Number Generation
+                                </a>
+                               
+                            
+                            </div>
+                          </div>
+                      </a>
+                      <div >
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <a href="#" class="slide-text">Internal/Pratical Exam</a>
+                          <!-- Dropdown content -->
+                          <div class="dropdown-content">
+                              <a href="/add_marks/">
+                                Internal/Pratical Exam Marks Entry
+                              </a>
+                            
+                              <a href="subpage3.html">
+                                Internal Exam Marks Detalied Status
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/add_teacher/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Teachers Tables</span>
+                        </div>
+                      </a>
+                      <a href="/reviwes/" class="slide-link" >
+                        <div class="slide">
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Form Report</span>
+                        </div>
+                      </a>
+                   
+                    <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                    <a href="/profile/" class="slide-link">
+                        <div class="slide" id="slide-active">
+                            <div class="slide-icon-box" id="slide-icon-box-active">
+                            <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Profile</span>
+                        </div>
+                      </a>
+                      <a href="/logout/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Log out</span>
+                        </div>
+                      </a>
+                    
+
+                    <div class="fix-ad">
+                        <div class="img-container">
+                            <div class="pro1">Tirupati Foundation Trust</div>
+                        </div>
+                        <div class="slide-x">
+                            <a href="https://tirupatipvtiti.in/about-trust/" class="pro-button">Visit our site</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="right-side-1">
+        <div class="pro-container">
+            <div class="profile-container">
+                <div class="search-slide search-pading " style="padding: 10px 10px;">
+                    <div class="page-container page-container-profile" >
+                        <div class="path">
+                            <div class="page-page-1 white">
+                                Pages
+                            </div>
+                            <div class="page-page-2 white">
+                                &nbsp;/ Dashboard
+                            </div>
+                        </div>
+                        <div class="page-dashboard">
+                            Profile
+                        </div>
+                    </div>
+                    <div class="page-container-1">
+                        <div class="page-container-1-1">
+                             <div class="dropdown-fade" >
+                            <button class="dropdown-btn"style="background: #fff;color:#f97316;">Today's Tasks</button>
+                            <div class="dropdown-content">
+                              <ul id="task-list">
+                               
+                              </ul>
+                              <div>
+                                <input type="text" id="new-task-input" placeholder="Enter new task" />
+                                <button onclick="addTask()">Add</button>
+                                
+                              </div>
+                            </div>
+                        </div>
+                            <input type="button" value=" S P C A M " class="input-btn pro-input-btn">
+                            <button id="menu-btn"
+                            style= "
+                            /* background-color: hsla(0, 0%, 94%, 0.925); */
+                            padding-left: 0px;
+                            padding-right: 0px;
+                            margin-top: 8px;
+                            
+                            margin-right: 10px;
+                           font-weight: bold;
+                           width: 18px;
+                           color:#fff;
+                                 ">☰</button>
+                                 <div id="mySidebar" class="sidebar-1" >
+                                    <div class="container-1 container-2" style=" 
+                                     padding: 0px;">
+                                        <div class="logo" style="color:#000;">
+                                         <img src="{% static 'icons/dashboard-line.svg' %}" class="slide-icons" alt="not found">
+                                            <h1 class="sud" style="margin-top: 5px;" style="color:#000;">SPCAM Dashboard</h1>
+                                        </div>
+                                        <div class="pages">
+                                            <a href="/index/" class="slide-link" >
+                                                <div class="slide-1" style="margin: 0px ; padding-bottom:0px;
+                                                margin-left:3px; " >
+                                                    
+                                                     <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found" style="margin-left:11px;">
+                                                    
+                                                    <span class="slide-text">Dashboard</span>
+                                                </div>
+                                            </a>
+                                            
+                                            <div class="slide-1">
+                                             <div class="slide-icon-bo-1x" style="margin-left: 10px;">
+                                                 <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                                             </div>
+                                             <div  class="slide-text" style="color:#000;">Student Configuration</div>
+                                             <!-- Dropdown content -->
+                                             <div class="dropdown-content-1">
+                                                 <a href="/analitics/" class="slide-link" >
+                                                     Student Analitics
+                                                 </a>
+                                                 <a href="/sprofile/">
+                                                    Add Student Profile Details
+                                                 </a>
+                                                 <a href="/add_subjects/">
+                                                    Student Subject Mapping
+                                                 </a>
+                                                
+                                                 <a href="/v_student_profile/">
+                                                     Student Profile Details
+                                                 </a>
+                                                 <a href="#"> 
+                                                     Student Roll Number Generation
+                                                 </a>
+                                             </div>
+                                         </div>
+                                         
+                                            <div>
+                                                <div >
+                                                    <div class="slide-1" >
+                                                      <div  style="margin-left: 15px; margin-top: -5px; margin-right: 10px;" >
+ 
+                                                         <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons icon-side" style="padding-left: 0px; margin-left: 0px;" alt="not found">
+ 
+                                                      </div>
+                                                      <div href="#" class="slide-text sidetext" style="color: #000; margin-left: 0px; margin-right: 10px; margin-top: -1px;" >Internal/Pratical Exam</div>
+                                                      <!-- Dropdown content -->
+                                                      <div class="dropdown-content-1">
+                                                         <a href="/add_marks/">
+                                                             Internal/Pratical Exam Marks Entry
+                                                           </a>
+                                                         
+                                                           <a href="subpage3.html">
+                                                             Internal Exam Marks Detalied Status
+                                                           </a>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                            </div>
+                                            <a href="/add_teacher/" class="slide-link">
+                                                <div class="slide" style="margin-top: -5px;">
+                                                   
+                                                     <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                    
+                                                    <span class="slide-text">Teachers Tables</span>
+                                                </div>
+                                            </a>
+                                            <a href="/reviwes/" class="slide-link">
+                                                <div class="slide" style="margin-top: -15px;" >
+                                                    
+ 
+                                                     <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found" style="margin-top:5px;">
+                                                   
+                                                    <span class="slide-text" >Form Report</span>
+                                                </div>
+                                            </a>
+                            
+                                            <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                                            <a href="/profile/" class="slide-link">
+                                                <div class="slide" id="slide-active">
+                                                    
+                                                     <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                                                    
+                                                    <span class="slide-text">Profile</span>
+                                                </div>
+                                            </a>
+                                            <a href="/logout/" class="slide-link">
+                                                <div class="slide" style="margin-top: -15px;">
+                                                    
+ 
+                                                     <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                   
+                                                    <span class="slide-text" style="color: #131212;">Log out</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Close Button -->
+                                    <span class="close-btn" onclick="closeNav()" style="color: black;">×</span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-pic"  >
+                    <div class="profile-flex">
+                        <div class="profile-details" >
+                            <img src="{% static 'Faculties/Dr. Suyog Upasni.jpg' %}" class="profile-picture" alt="not found" id="profile-picture">
+                        </div>
+                        <div class="pro-details">
+                            <div class="pro-name-1" id="pro-name-1">Suyog Upasani</div>
+                            <div class="pro-name-2" id="pro-name-2">Principal</div>
+                        </div>
+                    </div>
+                    <div class="pro-btn">
+                        <div class="pro-btn-1">
+                            <input type="button" value="Edit Profile" class="input-btn pro-input-btn"
+                                onclick="showEditprofile()">
+                        </div>
+                    </div>
+                    <div class="pro-btn-icon">
+                        <div class="pro-btn-1">
+                            <div type="button" class="input-btn-icon pro-input-icon" onclick="showEditprofile()"> <svg
+                                    class="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M12.8995 6.85453L17.1421 11.0972L7.24264 20.9967H3V16.754L12.8995 6.85453ZM14.3137 5.44032L16.435 3.319C16.8256 2.92848 17.4587 2.92848 17.8492 3.319L20.6777 6.14743C21.0682 6.53795 21.0682 7.17112 20.6777 7.56164L18.5563 9.68296L14.3137 5.44032Z">
+                                    </path>
+                                </svg></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-card" id="edit-card" style="z-index: 1000;">
+                    <h2>Edit Profile</h2>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" value="Suyog Upasani" style="width: 90%;">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" value="Principal" style="width: 90%;">
+                    <label for="profile-pic">Profile Picture:</label>
+                    <input type="file" id="profile-pic-input" accept="image/*">
+                    <button onclick="saveProfile()">Save</button>
+                </div>
+                <script>
+                    function showEditprofile() {
+                        document.getElementById('edit-card').style.display = 'flex';
+                    }
+
+                    function saveProfile() {
+                        const name = document.getElementById('name').value;
+                        const title = document.getElementById('title').value;
+                        const fileInput = document.getElementById('profile-pic-input');
+                        const profilePic = document.getElementById('profile-picture');
+
+                        document.getElementById('pro-name-1').textContent = name;
+                        document.getElementById('pro-name-2').textContent = title;
+
+                        if (fileInput.files && fileInput.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                profilePic.src = e.target.result;
+                            };
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+
+                        document.getElementById('edit-card').style.display = 'none';
+                    }
+
+                </script>
+            </div>
+        </div>
+        <div class="three-cards">
+
+
+
+
+
+
+            <div id="teacher-card" class="card" style="
+            margin: 10px;">
+                <div class="teacher-options">
+                    <button onclick="showModal()">Other Teachers</button>
+                </div>
+                {% comment %} <img src="{% static 'images/Dr_Suyog_Upasni.jpg' %}" alt="Teacher Photo" id="teacher-photo"> {% endcomment %}
+
+
+                <img id="teacher-photo" src="{% static 'Faculties/Dr. Suyog Upasni.jpg' %}" alt="Teacher Photo">
+                <h2 id="teacher-name">Select a Teacher</h2>
+                <p><strong>Email:</strong> <span id="teacher-email">-</span></p>
+                <p><strong>Hire Date:</strong> <span id="teacher-hire-date">-</span></p>
+                <p><strong>Subject:</strong> <span id="teacher-subject">-</span></p>
+                <p><strong>Experience:</strong> <span id="teacher-experience">-</span></p>
+                <p><strong>Education:</strong> <span id="teacher-education">-</span></p>
+                <p><strong>Research Area:</strong> <span id="teacher-research">-</span></p>
+                <p><strong>Publications:</strong> National: <span id="teacher-publications-national">-</span>,
+                    International: <span id="teacher-publications-international">-</span></p>
+                <p><strong>Seminars:</strong> National: <span id="teacher-seminars-national">-</span>, International:
+                    <span id="teacher-seminars-international">-</span>
+                </p>
+            </div>
+
+            <!-- Modal -->
+            <div id="teacher-modal" class="modal">
+                <div class="modal-content">
+                    <button class="close-modal" onclick="closeModal()">Close</button>
+                    <h3>Select a Teacher</h3>
+                    <div id="modal-teacher-names"></div>
+                </div>
+            </div>
+
+
+
+            <div class="details-card" style="margin: 13px;">
+                <div class="Platform-Settings">
+                    <div class="bio">
+                        <div class="card-heading">
+                            <div> Profile Information</div>
+                            <a onclick="showEditCard()" class="slide-link">
+                                <div class="slide" style="width: 50px; height: 30px; padding: 0%;
+                                margin: 0%; margin-left: 5px;">
+                                    <svg class="edit bio-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M12.8995 6.85453L17.1421 11.0972L7.24264 20.9967H3V16.754L12.8995 6.85453ZM14.3137 5.44032L16.435 3.319C16.8256 2.92848 17.4587 2.92848 17.8492 3.319L20.6777 6.14743C21.0682 6.53795 21.0682 7.17112 20.6777 7.56164L18.5563 9.68296L14.3137 5.44032Z"
+                                    onclick="showEditCard()"></path>
+                            </svg>
+                                </div>
+                            </a>
+                            
+
+                        </div>
+                    </div>
+                    <div class="toggle-c-1" style="padding-left: 0px;">
+                        hi, my self mr. Suyog Upasani and i am the prencypal of the SPCAM collage bakrol 
+                        this dashboard is made by codeweavers.
+                    </div>
+                    <div class="detail-1"><b>Full Name: </b> <span class="name" id="fullName">Mr.Suyog Upasani</span>
+                    </div>
+                    <div class="detail-1"><b>Mobile: </b> <span class="name" id="mobile">9065486248</span></div>
+                    <div class="detail-1"><b>Email: </b> <span class="name" id="email"> suyogupasani.spcam@spec.edu.in</span>
+                    </div>
+                    <div class="detail-1"><b>Location: </b> <span class="name" id="location">INDIA</span></div>
+                </div>
+
+                <div id="editCard">
+                    <label for="editBio">Update Bio</label>
+                    <textarea id="editBio" placeholder="Update Bio"></textarea>
+
+                    <label for="editName">Update Name</label>
+                    <input type="text" id="editName" placeholder="Update Name" required>
+
+                    <label for="editMobile">Update Mobile</label>
+                    <input type="text" id="editMobile" placeholder="Update Mobile (10 digits)" required
+                        pattern="^\d{10}$">
+
+                    <label for="editEmail">Update Email</label>
+                    <input type="email" id="editEmail" placeholder="Update Email" required>
+
+                    <label for="editLocation">Update Location</label>
+                    <input type="text" id="editLocation" placeholder="Update Location" required>
+
+                    <button onclick="saveChanges()">Save</button>
+                    <button onclick="hideEditCard()">Cancel</button>
+                </div>
+
+                <div class="overlay" id="overlay" onclick="hideEditCard()"></div>
+
+                <script>
+                    function showEditCard() {
+                        document.getElementById('editCard').style.display = 'block';
+                        document.getElementById('overlay').style.display = 'block';
+                    }
+
+                    function hideEditCard() {
+                        document.getElementById('editCard').style.display = 'none';
+                        document.getElementById('overlay').style.display = 'none';
+                    }
+
+                    function saveChanges() {
+                        var bio = document.getElementById('editBio').value;
+                        var name = document.getElementById('editName').value;
+                        var mobile = document.getElementById('editMobile').value;
+                        var email = document.getElementById('editEmail').value;
+                        var location = document.getElementById('editLocation').value;
+
+                        // Mobile number validation (exactly 10 digits)
+                        if (!/^\d{10}$/.test(mobile)) {
+                            alert("Please enter a valid mobile number with exactly 10 digits.");
+                            return;
+                        }
+
+                        // Email validation
+                        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                        if (!emailPattern.test(email)) {
+                            alert("Please enter a valid email address.");
+                            return;
+                        }
+
+                        if (bio) document.querySelector('.toggle-c-1').innerText = bio;
+                        if (name) document.getElementById('fullName').innerText = name;
+                        if (mobile) document.getElementById('mobile').innerText = mobile;
+                        if (email) document.getElementById('email').innerText = email;
+                        if (location) document.getElementById('location').innerText = location;
+
+                        hideEditCard();
+                    }
+                </script>
+            </div>
+            <div class="details-card">
+                <div class="Platform-Settings card-justify">
+                    Complaints
+                </div>
+                <div class="scrollable" id="complaintsList">
+                    <div class="image-slide">
+                        <div class="placeholder">ag</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Arvind Gohel</div>
+                            <div class="image-div-2">Hi! I need more information..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">YT</div>
+                        <div class="image-div">
+                            <div class="image-div-1">yash thakur</div>
+                            <div class="image-div-2">Awesome work, can you..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">RV</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Rahiyan Vohra</div>
+                            <div class="image-div-2">About files I can..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">P</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Priyesh</div>
+                            <div class="image-div-2">Have a great afternoon...</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">SP</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Sahil Pathan</div>
+                            <div class="image-div-2">Hi! I need more information..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">AG</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Arvind Gohel</div>
+                            <div class="image-div-2">Hi! I need more information..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">YT</div>
+                        <div class="image-div">
+                            <div class="image-div-1">yash thakur</div>
+                            <div class="image-div-2">Awesome work, can you..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">RV</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Rahiyan Vohra</div>
+                            <div class="image-div-2">About files I can..</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">P</div>
+                        <div class="image-div">
+                            <div class="image-div-1">Priyesh</div>
+                            <div class="image-div-2">Have a great afternoon...</div>
+                        </div>
+                    </div>
+                    <div class="image-slide">
+                        <div class="placeholder">P</div>
+                        <div class="image-div">
+                             <div class="image-div-1">Priyesh</div>
+                            <div class="image-div-2">Have a great afternoon...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="project-card">
+
+            
+
+                <div class="modal" id="editModal">
+                    <div class="modal-content">
+                        <h3>Edit Project Details</h3>
+                        <div class="modal-field">
+                            <label for="editTitle">Title:</label>
+                            <input type="text" id="editTitle" placeholder="Enter Title">
+                        </div>
+                        <div class="modal-field">
+                            <label for="editDescription">Description:</label>
+                            <textarea id="editDescription" rows="4" placeholder="Enter Description"></textarea>
+                        </div>
+                        <div class="modal-field">
+                            <label for="editImage">Project Image:</label>
+                            <div class="file-upload">
+                                <button class="select-image-btn" id="selectImage">Upload Project Image</button>
+                                <input type="file" id="imageUpload" style="display: none;">
+                                <span id="imageFileName" class="file-name"></span>
+                            </div>
+                        </div>
+                        <div class="modal-field">
+                            <label for="editTeam">Team Member Images:</label>
+                            <div class="team-members-upload">
+                                <input type="file" class="team-upload" id="teamUpload1" style="display: none;">
+                                <button class="select-image-btn" id="selectTeamImage1">Upload Team Member 1
+                                    Image</button>
+                                <span id="teamFileName1" class="file-name"></span>
+                            </div>
+                            <div class="team-members-upload">
+                                <input type="file" class="team-upload" id="teamUpload2" style="display: none;">
+                                <button class="select-image-btn" id="selectTeamImage2">Upload Team Member 2
+                                    Image</button>
+                                <span id="teamFileName2" class="file-name"></span>
+                            </div>
+                            <div class="team-members-upload">
+                                <input type="file" class="team-upload" id="teamUpload3" style="display: none;">
+                                <button class="select-image-btn" id="selectTeamImage3">Upload Team Member 3
+                                    Image</button>
+                                <span id="teamFileName3" class="file-name"></span>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="save-btn" id="saveChanges">Save Changes</button>
+                            <button class="cancel-btn" id="cancelEdit">Close</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="Platform-Settings-1">
+                    Projects
+                </div>
+                <div class="project-div-2">CURRENT PROJECTS </div>
+                <div class="project-card-list" id="projectList">
+                    <div class="project-card-list-1">
+                        <img src="{% static 'images/download.jfif' %}" alt="not-found" class="product-img">
+                        <div class="project-div-3">New Pprojects</div>
+                        <div class="project-heading">SPCAM collage development</div>
+                        <div class="project-div-3 project-content">
+                            <p> in this project our teem tried to develop our facilites and other points to improve student's growth
+
+                            </p>
+                        </div>
+                        <div class="project-bottom">
+                            <div class="bottom-btn">
+                                <input type="button" value="View Project" class="view-btn" style="margin-top:10px;">
+                            </div>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn"style="height:28px; padding-top:7px">Delete</button>
+                        </div>
+                    </div>
+                    <div class="new-project" id="addNewProject">
+                        New Project
+                    </div>
+                </div>
+            
+
+
+        </div>
+        <div class="fotter">
+            <div class="fotter-left">
+                © 2025, made by <b>Code weavers</b> for a better web.
+            </div>
+            <div class="fotter-right">
+                <a href="#" class="links">Code weavers</a>
+                <a href="#" class="links">About Us</a>
+                <a href="#" class="links">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const teachers = [
+            {
+                id: 1,
+                name: 'Mr. Suyog Upasani',
+                photo: "{% static 'Faculties/Dr. Suyog Upasni.jpg' %}",
+                email: 'suyogupasani.spcam@spec.edu.in',
+                hireDate: '01-Jan-2007',
+                subject: 'Marketing Management',
+                experience: '16 Years',
+                education: 'Ph.D. in Management',
+                research: 'Marketing Management, General Management, Consumer Behaviour',
+                publications: { national: 10, international: 2 },
+                seminars: { national: 10, international: 0 },
+            },
+            {
+                id: 2,
+                name: 'Dr. Kalpesh Gohil',
+                photo: "{% static 'Faculties/Kalpesh Gohil 1.jpg' %}",
+                email: 'kalpeshgohil.spcam@spec.edu.in',
+                hireDate: '15-Mar-2009',
+                subject: 'English',
+                experience: '14 Years',
+                education: 'Ph.D., M.Phil., MA-English',
+                research: 'English',
+                publications: { national: 0, international: 5 },
+                seminars: { national: 20, international: 2 },
+            },
+            {
+                id: 3,
+                name: 'Dr. Ina Raval',
+                photo: "{% static 'Faculties/Dr. Ina Raval01.jpg' %}",
+                email: 'inaraval.spcam@spec.edu.in',
+                hireDate: '01-Aug-2015',
+                subject: 'Human Resource Management & General Management',
+                experience: '08 Years',
+                education: 'Ph.D., M.Phil., M.Com., B.Com.',
+                research: 'Human Resource Management & General Management',
+                publications: { national: 0, international: 3 },
+                seminars: { national: 20, international: 3 },
+            },
+            {
+                id: 4,
+                name: 'Dr. Julie Patel',
+                photo: "{% static 'Faculties/Julie Patel.jpg' %}",
+                email: 'juliepatel.spcam@spec.edu.in',
+                hireDate: '01-Jan-2013',
+                subject: 'Human Resource Management',
+                experience: '10 Years',
+                education: 'Ph.D, MHRM, BBA(ISM)',
+                research: 'Human Resource Management',
+                publications: { national: 4, international: 0 },
+                seminars: { national: 5, international: 2 },
+            },
+            {
+                id: 5,
+                name: 'Ms. Vibhutiben Bhoi',
+                photo: "{% static 'Faculties/Vibhuti ben.png' %}",
+                email: 'vibhutibhoi.spcam@spec.edu.in',
+                hireDate: '01-May-2023',
+                subject: 'Accounting',
+                experience: '09 months',
+                education: 'Ph.D. Pursuing, C.A. INTER, M.COM, B.COM, NET&SLET Qualified',
+                research: 'Accounting',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 2, international: 0 },
+            },
+            {
+                id: 6,
+                name: 'Mr. Chintan Parmar',
+                photo: "{% static 'Faculties/Chintan Parmar01.jpg' %}",
+                email: 'chintanparmar.spcam@spec.edu.in',
+                hireDate: '01-Jan-2011',
+                subject: 'Computer Network, Computer Graphics, Operating System',
+                experience: '12 Years',
+                education: 'MCA, B.Sc.(CS)',
+                research: 'Computer Network, Computer Graphics, Operating System',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 2, international: 1 },
+            },
+            {
+                id: 7,
+                name: 'Dr. Sunil Trivedi',
+                photo: "{% static 'Faculties/Dr. Sunil Trivedi.jpg' %}",
+                email: 'suniltrivedi.spcam@spec.edu.in',
+                hireDate: '01-Jan-2011',
+                subject: 'Commerce, Accounting & Finance',
+                experience: '12 Years',
+                education: 'Ph.D., M.Phil., M.Com (University Gold medalist), B.Com.',
+                research: 'Commerce, Accounting & Finance',
+                publications: { national: 5, international: 4 },
+                seminars: { national: 15, international: 1 },
+                outreachExcellence: [
+                    'Provided service to teach statistics & research methodology to the students of nursing, physiotherapy.',
+                    'Provided service to teach tax laws, company law, insurance law and other laws to law college students in Gujarat University as well as Sardar Patel University.',
+                    'Taught many poor & needy students for free in preparation of board/university exams.'
+                ],
+            },
+            {
+                id: 8,
+                name: 'Ms. Tarpara Jinal Sanjaybhai',
+                photo: "{% static 'Faculties/Jinal_Tarapara_spcam_bba.jpg' %}",
+                email: 'jinaltarpara.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: 'Not Available',
+                education: 'M.SC. MATHEMATICS',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 9,
+                name: 'Mr. Jatin Vaghela',
+                photo: "{% static 'Faculties/Jatin Vaghela.jpeg' %}",
+                email: 'jatinvaghela.spcam@spec.edu.in',
+                hireDate: '01-Aug-2021',
+                subject: 'Commerce',
+                experience: '02 Years 5 Months',
+                education: 'M.Com, Ph.D (Pursuing)',
+                research: 'Commerce',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 10,
+                name: 'Mrs. Swati Patel',
+                photo: "{% static 'Faculties/Swati Patel.jpeg' %}",
+                email: 'swatipatel.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: 'Not Available',
+                education: 'B.C.A , M.C.A',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 11,
+                name: 'Ms. Rose Robin Pereira',
+                photo: "{% static 'Faculties/rose.jpeg' %}",
+                email: 'rosepereira.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: 'Not Available',
+                education: 'M.A., B.A.(Economics)',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 3, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 12,
+                name: 'Ms. Aayushi Rao',
+                photo: "{% static 'Faculties/Ayushi Rao.jpg' %}",
+                email: 'ayushirao.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: 'Not Available',
+                education: 'M.C.A., B.C.A',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 13,
+                name: 'Mr. Pankaj Parmar',
+                photo: "{% static 'Faculties/Pankaj Parmar01.jpg' %}",
+                email: 'Not Available',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: '12 Years 10 Months',
+                education: 'BCA',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 14,
+                name: 'Mr. Deepkumar Kachhia',
+                photo: "{% static 'Faculties/deepkumar.jpeg' %}",
+                email: 'deepkachhiya.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: '04 Months (Industrial)',
+                education: 'MCA, BSC(CS)',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 1, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 15,
+                name: 'Mr. Himanshu Patel',
+                photo: "{% static 'Faculties/Himanshu Patel01.jpg' %}",
+                email: 'Not Available',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: '12 Years 5 Months',
+                education: 'B.Com.',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 16,
+                name: 'Ms. Rajeshree Parekh',
+                photo: "{% static 'Faculties/Rajeshree Parekh.jpg' %}",
+                email: 'Not Available',
+                hireDate: 'Not Available',
+                subject: 'Librarian',
+                experience: '01 Year',
+                education: 'M.Lisc., B.Lisc., BA',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 17,
+                name: 'Mr. Akshar Patel',
+                photo: "{% static 'Faculties/akshar.jpeg' %}",
+                email: 'Not Available',
+                hireDate: 'Not Available',
+                subject: 'Not Available',
+                experience: '00',
+                education: 'B.TEC Computer Engineering',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 18,
+                name: 'Mrs. Jyoti Amitkumar Dhamecha',
+                photo: "{% static 'Faculties/Jyoti_Dhamecha_spcam_1.jpg' %}",
+                email: 'jyotidhamecha.spcam@spec.edu.in',
+                hireDate: 'Not Available',
+                subject: 'Computer Science',
+                experience: '10 Years 6 Months',
+                education: 'MSc.(IT), BCA',
+                research: 'Computer Science',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 3, international: 1 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 19,
+                name: 'Mrs. Bhavisha Parvadiya',
+                photo: "{% static 'Faculties/bhavish.jpg' %}",
+                email: 'Not Available',
+                hireDate: 'Not Available',
+                subject: 'BCA',
+                experience: '16.5 Years',
+                education: 'BCA, PGDCA, MCA',
+                research: 'Not Available',
+                publications: { national: 2, international: 0 },
+                seminars: { national: 10, international: 2 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 20,
+                name: 'Mr. Priyesh Patel',
+                photo: "{% static 'Faculties/Priyesh Patel.jpg' %}",  
+                email: 'priyeshpatel.spcam@spec.edu.in',  
+                hireDate: 'Not Available',
+                subject: 'Accountant',
+                experience: '01 Year',
+                education: 'M.Com., B.Com.',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 21,
+                name: 'Mr. Dineshbhai Patil',
+                photo: "{% static 'Faculties/dineshbhai.jpeg' %}",  // Placeholder for photo, replace with actual image URL
+                email: 'dineshpatil.spcam@spec.edu.in',  // Example email, replace with actual email
+                hireDate: 'Not Available',
+                subject: 'Hardware & Networking',
+                experience: '05 Years',
+                education: 'Not Available',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 22,
+                name: 'Harpal Singh',
+                photo: "{% static 'Faculties/harpal.jpeg' %}",  // Placeholder for photo, replace with actual image URL
+                email: 'harpalsingh.spcam@spec.edu.in',  // Example email, replace with actual email
+                hireDate: 'Not Available',
+                subject: 'Clerk',
+                experience: '27 Years',
+                education: 'BSC',
+                research: 'Not Available',
+                publications: { national: 0, international: 0 },
+                seminars: { national: 0, international: 0 },
+                outreachExcellence: 'Not Available',
+            },
+            {
+                id: 23,
+                name: 'Rudra Rana',
+                photo: "{% static 'Faculties/rudhra.jpeg' %}",  // Placeholder for photo, replace with actual image URL
+                email: 'rudranana.spcam@spec.edu.in',  // Example email, replace with actual email
+                hireDate: 'Not Available',
+                subject: 'Adhyapak Sahayak',
+                experience: '16.5 Years',
+                education: 'BCA, MCA',
+                research: 'Not Available',
+                publications: { national: 2, international: 0 },
+                seminars: { national: 10, international: 2 },
+                outreachExcellence: 'Not Available',
+            }
+        ];
+
+
+
+        // Function to show the modal
+        function showModal() {
+            const modal = document.getElementById('teacher-modal');
+            const teacherNamesDiv = document.getElementById('modal-teacher-names');
+            teacherNamesDiv.innerHTML = ''; // Clear previous content
+            teachers.forEach((teacher) => {
+                const teacherElement = document.createElement('p');
+                teacherElement.textContent = teacher.name;
+                teacherElement.onclick = () => {
+                    displayTeacherDetails(teacher.id);
+                    closeModal();
+                };
+                teacherNamesDiv.appendChild(teacherElement);
+            });
+            modal.style.display = 'flex';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('teacher-modal').style.display = 'none';
+        }
+
+        // Function to display teacher details
+        function displayTeacherDetails(id) {
+            const teacher = teachers.find((t) => t.id === id);
+            if (!teacher) return;
+
+            document.getElementById('teacher-photo').src = teacher.photo;
+            document.getElementById('teacher-name').textContent = teacher.name;
+            document.getElementById('teacher-email').textContent = teacher.email;
+            document.getElementById('teacher-hire-date').textContent = teacher.hireDate;
+            document.getElementById('teacher-subject').textContent = teacher.subject;
+            document.getElementById('teacher-experience').textContent = teacher.experience;
+            document.getElementById('teacher-education').textContent = teacher.education;
+            document.getElementById('teacher-research').textContent = teacher.research;
+            document.getElementById('teacher-publications-national').textContent = teacher.publications.national;
+            document.getElementById('teacher-publications-international').textContent = teacher.publications.international;
+            document.getElementById('teacher-seminars-national').textContent = teacher.seminars.national;
+            document.getElementById('teacher-seminars-international').textContent = teacher.seminars.international;
+        }
+
+        // Call displayTeacherDetails with Suyog Upasani's ID (1) when the page loads
+        window.onload = () => {
+            displayTeacherDetails(1);
+        };
+
+        const editModal = document.getElementById("editModal");
+        const editTitleInput = document.getElementById("editTitle");
+        const editDescriptionInput = document.getElementById("editDescription");
+        const saveChangesButton = document.getElementById("saveChanges");
+        const cancelEditButton = document.getElementById("cancelEdit");
+
+        // Project Image and Team Member Images
+        const imageUpload = document.getElementById("imageUpload");
+        const imageFileName = document.getElementById("imageFileName");
+
+        const teamUpload1 = document.getElementById("teamUpload1");
+        const teamUpload2 = document.getElementById("teamUpload2");
+        const teamUpload3 = document.getElementById("teamUpload3");
+
+        const teamFileName1 = document.getElementById("teamFileName1");
+        const teamFileName2 = document.getElementById("teamFileName2");
+        const teamFileName3 = document.getElementById("teamFileName3");
+
+        let currentCard;
+        let uploadedImage = null;
+
+        function openEditModal(card) {
+            currentCard = card;
+
+            const title = card.querySelector(".project-heading").textContent;
+            const description = card.querySelector(".project-content").textContent;
+            const image = card.querySelector(".product-img").src;
+
+            // Set the modal fields
+            editTitleInput.value = title;
+            editDescriptionInput.value = description;
+            imageFileName.textContent = ""; // Reset the file name text
+            imageFileName.textContent = "Current image: " + image.split("/").pop(); // Display image file name
+
+            // Reset file inputs
+            uploadedImage = image; // Store current image as fallback if no new image is selected
+
+            editModal.style.display = "flex";
+        }
+
+        saveChangesButton.addEventListener("click", () => {
+            const newTitle = editTitleInput.value;
+            const newDescription = editDescriptionInput.value;
+
+            // Set the project image and team images
+            if (currentCard) {
+                currentCard.querySelector(".project-heading").textContent = newTitle;
+                currentCard.querySelector(".project-content").textContent = newDescription;
+
+                // Update project image
+                const newImage = uploadedImage || imageFileName.textContent;
+                currentCard.querySelector(".product-img").src = newImage;
+            }
+
+            // Update team member images
+            const teamImages = [
+                teamFileName1.textContent,
+                teamFileName2.textContent,
+                teamFileName3.textContent
+            ];
+
+            const teamContainer = currentCard.querySelector(".bottom-img");
+            teamContainer.innerHTML = ""; // Clear previous images
+
+            teamImages.forEach((fileName, index) => {
+                if (fileName) {
+                    const img = document.createElement("img");
+                    img.src = fileName;
+                    img.alt = `Team Member ${index + 1}`;
+                    img.className = "team-img"; // Add team member styling
+                    teamContainer.appendChild(img);
+                }
+            });
+
+            editModal.style.display = "none";
+        });
+
+        cancelEditButton.addEventListener("click", () => {
+            editModal.style.display = "none";
+        });
+
+        // Image upload functionality for the project image
+        document.getElementById("selectImage").addEventListener("click", () => {
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                uploadedImage = URL.createObjectURL(file); // Create object URL for the uploaded image
+                imageFileName.textContent = file.name; // Show the file name
+            }
+        });
+
+        // Image upload functionality for team members
+        document.getElementById("selectTeamImage1").addEventListener("click", () => {
+            teamUpload1.click();
+        });
+
+        teamUpload1.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                teamFileName1.textContent = URL.createObjectURL(file); // Create object URL for team member 1 image
+            }
+        });
+
+        document.getElementById("selectTeamImage2").addEventListener("click", () => {
+            teamUpload2.click();
+        });
+
+        teamUpload2.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                teamFileName2.textContent = URL.createObjectURL(file); // Create object URL for team member 2 image
+            }
+        });
+
+        document.getElementById("selectTeamImage3").addEventListener("click", () => {
+            teamUpload3.click();
+        });
+
+        teamUpload3.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                teamFileName3.textContent = URL.createObjectURL(file); // Create object URL for team member 3 image
+            }
+        });
+
+        function attachCardEvents(card) {
+            const editButton = card.querySelector(".edit-btn");
+            const deleteButton = card.querySelector(".delete-btn");
+
+            editButton.addEventListener("click", () => openEditModal(card));
+            deleteButton.addEventListener("click", () => card.remove());
+        }
+
+        document.querySelectorAll(".project-card-list-1").forEach(attachCardEvents);
+
+        document.getElementById("addNewProject").addEventListener("click", () => {
+            const projectList = document.getElementById("projectList");
+
+            const newCard = document.createElement("div");
+            newCard.classList.add("project-card-list-1");
+
+            const  randomImage = Math.random();
+
+            randomImagePath = '';
+
+             
+            if (randomImage>0 && randomImage<=1/3)
+             {
+                 randomImagePath = "{% static 'images/Sports.png' %}";
+
+            }else if (randomImage>1/3 && randomImage<=2/3)
+             {
+                randomImagePath = "{% static 'images/Sports (1).png' %}";
+            }else if(randomImage>2/3 && randomImage<=1)
+             {
+                randomImagePath = "{% static 'images/Girl Graduation (Copy).png' %}";
+            }
+            
+           
+            
+            newCard.innerHTML = ` 
+            <img src="${randomImagePath}" alt="not-found" class="product-img" id="randomimg">
+            <div class="project-div-3">New Project</div>
+            <div class="project-heading"placeholder="Enter Description"></div>
+             <div class="project-div-3 project-content">
+            
+                        </div>
+            <div class="project-bottom">
+                <div class="bottom-btn">
+                    <input type="button" value="View Project" class="view-btn" style="margin-top:10px;">
+                </div>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn"style="height:28px; padding-top:7px"  >Delete</button>
+            </div>
+        `;
+     
+            projectList.insertBefore(newCard, document.getElementById("addNewProject"));
+            attachCardEvents(newCard);
+            const newImage = newCard.querySelector("img"); // Select the image inside the card
+            newImage.style.width = "100px"; // Set the desired width
+            newImage.style.height = "auto";
+            newImage.style.margin = "auto";
+            newImage.style.backgroundColor= "white";
+        });
+        document.getElementById("indexpage").addEventListener("click", function() {
+  
+  window.location.href = "index.html";
+});
+function addTask() {
+  const taskInput = document.getElementById('new-task-input');
+  const taskText = taskInput.value.trim();
+
+  if (taskText !== "") {
+      // Create a new list item
+      const ul = document.getElementById('task-list');
+      const li = document.createElement('li');
+      const taskId = "task" + (ul.children.length + 1); // Generate a unique task id
+      const input = document.createElement('input');
+      input.type = "checkbox";
+      input.id = taskId;
+
+      const label = document.createElement('label');
+      label.htmlFor = taskId;
+      label.textContent = taskText;
+
+      li.appendChild(input);
+      li.appendChild(label);
+      ul.appendChild(li);
+      taskInput.value = ""; // Clear input field
+  }
+}
+  // Function to remove all tasks after 24 hours
+  setTimeout(function() {
+    const ul = document.getElementById('task-list');
+    ul.innerHTML = ""; // Clear all tasks
+}, 86400000);
+
+    </script>
+     <style>
+        @media (max-width: 480px) {
+            .pmar {
+                font-size: 0.9rem;
+            }
+        
+            .text-30 {
+                font-size: 0.75rem;
+            }
+        
+            table {
+                font-size: 0.8rem;
+                width: 70%;
+            }
+        
+            .members img {
+                width: 25px;
+                height: 25px;
+            }
+        
+            .company-name img {
+                width: 18px;
+                height: 18px;
+            }
+        
+            tbody td {
+                padding: 8px 10px;
+            }
+            .project-table{
+                width: 85%;
+                height: 600px;
+                margin: 15px ;
+            }
+            .oders{
+                margin: 15px;
+            }
+            .main-container{
+                width: 90%;
+                margin: 0px;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+            .page-container{
+                padding-left: 0cap;        
+            }
+            .search-slide{
+                width: 90%;
+            }
+            .div-line{
+                display: inline;
+            }
+            .div-circle{
+              margin-left: 85%;
+             
+            }
+            .dropdown-btn{
+                display: none;
+            }
+            .dropdown-fade{
+                display: none;
+                width: 0;
+            }
+            .search-slide{
+                width: 95%;
+            }
+            .card{
+                width: 85.5%;
+            }
+            .project-card{
+                width: 82%;
+                margin-left: 15px;
+            }
+            .three-cards{
+                margin: 2px;
+            }
+        }
+        @media (max-width: 680px) {
+            .pmar {
+                font-size: 0.9rem;
+            }
+        
+            .text-30 {
+                font-size: 0.75rem;
+            }
+        
+            table {
+                font-size: 0.8rem;
+                width: 70%;
+            }
+        
+            .members img {
+                width: 25px;
+                height: 25px;
+            }
+        
+            .company-name img {
+                width: 18px;
+                height: 18px;
+            }
+        
+            tbody td {
+                padding: 8px 10px;
+            }
+            .project-table{
+                width: 85%;
+                height: 600px;
+                margin: 15px ;
+            }
+            .oders{
+                margin: 15px;
+            }
+            .main-container{
+                width: 90%;
+                margin: 0px;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+            .page-container{
+                padding-left: 0cap;        
+            }
+            .search-slide{
+                width: 90%;
+            }
+            .div-line{
+                display: inline;
+            }
+            .div-circle{
+              margin-left: 85%;
+             
+            }
+            .dropdown-btn{
+                display: none;
+            }
+            .dropdown-fade{
+                display: none;
+                width: 0;
+            }
+            .search-slide{
+                width: 95%;
+            }
+            .card{
+                width: 85.5%;
+            }
+            .project-card{
+                width: 82%;
+                margin-left: 15px;
+            }
+            .three-cards{
+                margin: 2px;
+            }
+            .details-card{
+                margin-top: 15px;
+            }
+        }
+    </style>
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+
+        // Close the sidebar when clicking the close button
+        document.querySelector(".close-btn").addEventListener("click", closeNav);
+        function openNav() {
+    document.getElementById("mySidebar").style.width = "300px"; // Sidebar width when open
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0"; // Sidebar width when closed
+}
+
+document.getElementById("menu-btn").addEventListener("click", openNav);
+
+// Close the sidebar when clicking the close button
+document.querySelector(".close-btn").addEventListener("click", closeNav);
+
+
+
+
+    </script>
+    <script>
+        document.querySelectorAll('.slide-1').forEach(item => {
+            item.addEventListener('click', function () {
+                const dropdown = item.querySelector('.dropdown-content-1');
+    
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+    
+                // Toggle the clicked dropdown
+                if (dropdown) {
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    } else {
+                        dropdown.style.display = 'block';
+                    }
+                }
+            });
+        });
+    
+        // Close dropdown if clicking outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.slide-1')) {
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    d.style.display = 'none';
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        .main-container{
+            margin-left: 0px;
+        }
+    /* Sidebar styling */
+    .sidebar-1 {
+        height: 100%;
+        width: 0; /* Initially hidden */
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color:white;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 20px;
+        /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000; */
+        z-index: 2;
+    }
+    .sidebar-1 .container-1 {
+        padding: 10px 20px;
+    }
+ 
+    .sidebar-1 .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 25px;
+        font-size: 36px;
+        cursor: pointer;
+    }
+
+    .slide-1 {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .slide-icon-box {
+        margin-right: 10px;
+    }
+
+    .slide-icons {
+        width: 24px;
+        height: 24px;
+    }
+
+    .slide-text {
+        font-size: 14px;
+        /* color: black; */
+        font-weight: normal;
+    }
+
+    .dropdown-content {
+        display: none; /* Initially hidden */
+        flex-direction: column;
+        margin-left: 20px;
+    }
+
+    .dropdown-content a {
+        text-decoration: none;
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .dropdown-content a:hover {
+        color: #000;
+    }
+    .sidebar-1 a:hover {
+        color: #f1f1f1;  /* Hover text color */
+        background-color: rgba(255, 255, 255, 0.2);  /* Light hover background */
+    }
+    /* Open state for sidebar */
+    .sidebar.open {
+        width: 300px; /* Default width for larger screens */
+    }
+
+    /* Menu button styling */
+    #menu-btn {
+        /* font-size: 20px; */
+        cursor: pointer;
+        /* background-color: hsla(0, 0%, 94%, 0.925); */
+        border: none;
+        /* padding: 10px 15px; */
+        position: absolute;
+        top: 10px;
+        right:10px;
+        cursor: pointer;
+        z-index: 2;
+        color: black;
+        margin-left: 20px;
+        display: none;
+        margin-top: 22px;
+    }
+    /* .close-btn {
+        display: block;
+        text-align: right;
+        padding: 10px;
+        font-size: 18px;
+        cursor: pointer;
+    } */
+    .dropdown-content-1 {
+display: none; /* Initially hidden */
+flex-direction: column;
+margin-left: 20px;
+}
+.slide-1 {
+    position: relative;
+    cursor: pointer;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.dropdown-content-1 {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 200px;
+}
+
+.dropdown-content-1 a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+}
+
+    /* Responsive styling */
+    @media (max-width: 1000px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+    }
+    @media (max-width: 800px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+       
+    }
+    @media (max-width: 750px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+    }
+    @media (max-width: 600px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 500px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 360px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 1000px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+            background-color: #f97316;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 800px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+            background-color: #f97316;
+        }
+    }
+    @media (max-width: 750px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+            background-color: #f97316;
+        }
+    }
+    @media (max-width: 600px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+            background-color: #f97316;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 500px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+        }
+        .dropdown-fade{
+            display: none;
+        }
+    }
+    @media (max-width: 360px) {
+        .sidebar.open {
+            width: 70%; /* Narrower for smaller screens */
+        }
+
+        .slide-text {
+            font-size: 14px;
+        }
+
+        .sidebar .close-btn {
+            font-size: 28px;
+        }
+        #menu-btn{
+            display: grid;
+            margin-left: -30px;
+            
+        }
+        .search-pading{
+         padding-left: 0px;
+        }
+    }
+   
+</style>
+</body>
+
+</html>

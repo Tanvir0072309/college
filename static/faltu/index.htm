@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalistic Sidebar</title>
+    <style>
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fff;  /* Sidebar background color */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;  /* Hover text color */
+            background-color: rgba(255, 255, 255, 0.2);  /* Light hover background */
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 36px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Button to open the sidebar */
+        #menu-btn {
+            font-size: 30px;
+            cursor: pointer;
+            background-color: #f97316;  /* Button background color */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2;
+            border-radius: 5px;
+        }
+
+        /* Content area */
+        .content {
+            margin-left: 10px;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #f97316;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Media Queries */
+        @media screen and (max-width: 768px) {
+            .sidebar a {
+                font-size: 18px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Menu Button -->
+    <button id="menu-btn">☰</button>
+
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <div class="container">
+            <div class="logo">
+                <img src="icons/dashboard-line.svg" alt="not found" class="icon">
+                <h1 class="sud">SPCAM Dashboard</h1>
+            </div>
+            <div class="pages">
+                <a href="index.html" class="slide-link">
+                    <div class="slide" id="slide-active">
+                        <div class="slide-icon-box" id="slide-icon-box-active">
+                            <img src="icons/speed-up-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Dashboard</span>
+                    </div>
+                </a>
+                <a href="reviwes.html" class="slide-link">
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/book-2-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Student Configuration</span>
+                        <div class="dropdown-content">
+                            <a href="subpage1.html">Student Subject Mapping</a>
+                            <a href="subpage2.html">Release Student Subject Selection</a>
+                            <a href="analitics.html">Student Profile Details</a>
+                            <a href="subpage3.html">Student Division Mapping</a>
+                            <a href="subpage3.html">Student Division Transfer</a>
+                            <a href="#">Student Roll Number Generation</a>
+                        </div>
+                    </div>
+                </a>
+                <div>
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/book-2-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Internal/Practical Exam</span>
+                        <div class="dropdown-content">
+                            <a href="subpage1.html">Internal/Practical Exam Marks Entry</a>
+                            <a href="subpage2.html">Release Internal Exam Marks</a>
+                            <a href="subpage3.html">Internal Exam Marks Entry Detailed Status</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="tables.html" class="slide-link">
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/bar-chart-2-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Teachers Tables</span>
+                    </div>
+                </a>
+                <a href="reviwes.html" class="slide-link">
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/speed-up-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Form Report</span>
+                    </div>
+                </a>
+
+                <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                <a href="profile.html" class="slide-link">
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/profile-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Profile</span>
+                    </div>
+                </a>
+                <a href="#" class="slide-link">
+                    <div class="slide">
+                        <div class="slide-icon-box">
+                            <img src="icons/fingerprint-2-line.svg" alt="not found" class="slide-icons">
+                        </div>
+                        <span class="slide-text">Log out</span>
+                    </div>
+                </a>
+
+                <div class="fix-ad">
+                    <div class="img-container">
+                        <div class="pro1">Tirupati Foundation Trust</div>
+                    </div>
+                    <div class="slide-x">
+                        <a href="#" class="pro-button">Visit our site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Close Button -->
+        <span class="close-btn" onclick="closeNav()" style="color: black;">×</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Minimalistic Sidebar</h1>
+        <p>This sidebar uses a clean and simple design with a touch of your preferred colors for easy navigation. Click the ☰ button to open and close the sidebar.</p>
+    </div>
+
+    <!-- JavaScript to open and close sidebar -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+
+        // Close the sidebar when clicking the close button
+        document.querySelector(".close-btn").addEventListener("click", closeNav);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Submission Page | SPCAM College</title>
+    <style>
+        /* Resetting body and basic styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #FF5722;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 40px;
+        }
+
+        nav li:last-child {
+            margin-right: 0;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffeb3b;
+        }
+
+        /* Main Form Container */
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #FF5722;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Layout */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, textarea, select {
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #FF5722;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* Flexbox layout for side-by-side inputs */
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 48%; /* Adjust width for side-by-side layout */
+        }
+
+        /* Button Styles */
+        button {
+            padding: 16px;
+            font-size: 18px;
+            background-color: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #f4511e;
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #d6e9c6;
+            margin-top: 20px;
+        }
+
+        /* SPCAM Section */
+        .spcam-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .spcam-section h2 {
+            color: #FF5722;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .spcam-section p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px;
+                margin: 20px;
+            }
+
+            nav li {
+                display: block;
+                margin-bottom: 15px;
+            }
+
+            nav li:last-child {
+                margin-bottom: 0;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+
+            .form-group select,
+            .form-group input {
+                width: 100%;
+            }
+        }
+        @media(max-width: 500px){
+            .form-head{
+                font-size:19px;
+            }     
+            .form-container{
+                margin:0%;
+            }   
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+
+    <!-- Main Form Container -->
+    <div class="form-container" >
+        <h1 class="form-head" style="color:#f97316">SPCAM Student Submission Form</h1>
+
+        <!-- SPCAM Section -->
+        <div class="spcam-section">
+            <h3 style="color:#f97316">Welcome to SPCAM!</h3>
+            <p>We are proud of our students' achievements. Please submit your details carefully.</p>
+        </div>
+
+        <!-- Form with CSRF Token -->
+        <form method="POST" action="/sprofile/">
+            {% csrf_token %}
+
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter Full Name" required>
+
+            <label for="enrollment_no">Enrollment No</label>
+            <input type="text" id="enrollment_no" name="enrollment_no" placeholder="Enter Enrollment Number" required>
+
+            <div class="form-group">
+                <div>
+                    <label for="class">Select Class</label>
+                    <select id="class" name="class_names" required>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="BBA-ISM">BBA-ISM</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="semester">Select Semester</label>
+                    <select id="semester" name="semester" required>
+                        <option value="1">Sem 1</option>
+                        <option value="2">Sem 2</option>
+                        <option value="3">Sem 3</option>
+                        <option value="4">Sem 4</option>
+                        <option value="5">Sem 5</option>
+                        <option value="6">Sem 6</option>
+                        <option value="7">Sem 7</option>
+                        <option value="8">Sem 8</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="blood_group">Select Blood Group</label>
+            <select id="blood_group" name="blood_group" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="4" placeholder="Enter Address" required></textarea>
+
+            <label for="contact_no">Contact No</label>
+            <input type="tel" id="contact_no" name="contact_no" placeholder="Enter Contact Number" required>
+
+            <label for="about_yourself">About Yourself</label>
+            <textarea id="about_yourself" name="about_yourself" rows="4" placeholder="Tell us about yourself" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>

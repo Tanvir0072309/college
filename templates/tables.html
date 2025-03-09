@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    </script>
+    <link rel="icon" type="image/x-icon" href="icons/spcamlogoimage.png">
+    <title>SPCAM Dashboard</title>
+    <style>
+        .main-container {
+            padding-right: 5px;
+            padding-left: 10px;
+            margin-left: 20PX;
+        }
+
+        .details-btn,
+        .delete-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .details-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            margin-left: 5px;
+        }
+
+        .details-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+    <style>
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+        .add-teacher-form{
+            max-width: 93%;
+        }
+
+        .faculty-table-container {
+            max-width: 90%;
+            margin-left: 44px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .faculty-table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .faculty-table th,
+        .faculty-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .faculty-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .faculty-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+    </style>
+    <style>
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #003366;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 95%;
+            font-size: 14px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        button {
+            grid-column: span 2;
+            padding: 12px;
+            background-color: #f97316;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #f97316;
+        }
+
+        .image-preview {
+            text-align: center;
+            grid-column: span 2;
+            margin-bottom: 20px;
+        }
+
+        .image-preview img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .upload-btn {
+            background-color: #f97316;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .upload-btn:hover {
+            background-color: #f97316;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .add-teacher-form {
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            margin: 20px;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 95%;
+            font-size: 14px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="main-screen">
+        <div class="left-side">
+            <div class="container">
+                <div class="logo">
+                    <img src="{% static 'icons/dashboard-line.svg' %}" class="icon" alt="not found">
+                    <h1 class="sud">SPCAM Dashbord </h1>
+                </div>
+                <div class="pages">
+                    <a href="/index/" class="slide-link" >
+                        <div class="slide" >
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Dashboard</span>
+                        </div>
+                      </a>
+                      
+                      <a href="/reviwes/" class="slide-link">
+                        <div class="slide">
+                            <div class="slide-icon-box">
+                                <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                            </div>
+                            <a href="#" class="slide-text">Student Configration</a>
+                            <!-- Dropdown content -->
+                            <div class="dropdown-content">
+                                <a href="/analitics/" class="slide-link" >
+                                    Student Analitics
+                                </a>
+                                <a href="/sprofile/">
+                                   Add Student Profile Details
+                                </a>
+                                <a href="/add_subjects/">
+                                   Student Subject Mapping
+                                </a>
+                               
+                                <a href="/v_student_profile/">
+                                    Student Profile Details
+                                </a>
+                                <a href="#"> 
+                                    Student Roll Number Generation
+                                </a>
+                               
+                            
+                            </div>
+                          </div>
+                      </a>
+                      <div >
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <a href="#" class="slide-text">Internal/Pratical Exam</a>
+                          <!-- Dropdown content -->
+                          <div class="dropdown-content">
+                              <a href="/add_marks/">
+                                Internal/Pratical Exam Marks Entry
+                              </a>
+                            
+                              <a href="subpage3.html">
+                                Internal Exam Marks Detalied Status
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/add_teacher/" class="slide-link">
+                        <div class="slide" id="slide-active">
+                            <div class="slide-icon-box" id="slide-icon-box-active">
+                            <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Teachers Tables</span>
+                        </div>
+                      </a>
+                      <a href="/reviwes/" class="slide-link" >
+                        <div class="slide">
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Form Report</span>
+                        </div>
+                      </a>
+                   
+                    <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                    <a href="/profile/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Profile</span>
+                        </div>
+                      </a>
+                      <a href="/logout/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Log out</span>
+                        </div>
+                      </a>
+                    
+
+                    <div class="fix-ad">
+                        <div class="img-container">
+                            <div class="pro1">Tirupati Foundation Trust</div>
+                        </div>
+                        <div class="slide-x">
+                            <a href="https://tirupatipvtiti.in/about-trust/" class="pro-button">Visit our site</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="right-side">
+            <div class="main-container">
+                <div class="search-slide" style="padding-left: 10px;">
+                    <div class="page-container">
+                        <div class="path">
+                            <div class="page-page-1">
+                                Pages
+                            </div>
+                            <div class="page-page-2">
+                                &nbsp;/ Dashboard
+                            </div>
+                        </div>
+                        <div class="page-dashboard">
+                            Teachers Table
+                        </div>
+                    </div>
+                    <div class="page-container-1">
+                        <div class="page-container-1-1">
+
+                            <input type="button" value="S P C A M" class="input-btn ob">
+                            <!-- <div class="sing-in">Log Out</div> -->
+                            <button id="menu-btn"
+                                style= "
+                                background-color: hsla(0, 0%, 94%, 0.925);
+                                padding-left: 0px;
+                                margin-top: 0px;
+                                margin-left: 0px;
+                               font-weight: bold;
+                                     ">☰</button>
+                                     <div id="mySidebar" class="sidebar-1" >
+                                        <div class="container-1 container-2" style=" 
+                                         padding: 0px;">
+                                            <div class="logo">
+                                             <img src="{% static 'icons/dashboard-line.svg' %}" class="slide-icons" alt="not found">
+                                                <h1 class="sud" style="margin-top: 5px;">SPCAM Dashboard</h1>
+                                            </div>
+                                            <div class="pages">
+                                                <a href="/index/" class="slide-link" >
+                                                    <div class="slide-1" style="margin: 0px ; padding-bottom:0px;
+                                                    margin-left:3px; " >
+                                                        
+                                                         <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found" style="margin-left:11px;">
+                                                        
+                                                        <span class="slide-text">Dashboard</span>
+                                                    </div>
+                                                </a>
+                                                
+                                                <div class="slide-1">
+                                                 <div class="slide-icon-bo-1x" style="margin-left: 10px;">
+                                                     <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                 </div>
+                                                 <div  class="slide-text">Student Configuration</div>
+                                                 <!-- Dropdown content -->
+                                                 <div class="dropdown-content-1">
+                                                     <a href="/analitics/" class="slide-link" >
+                                                         Student Analitics
+                                                     </a>
+                                                     <a href="/sprofile/">
+                                                        Add Student Profile Details
+                                                     </a>
+                                                     <a href="/add_subjects/">
+                                                        Student Subject Mapping
+                                                     </a>
+                                                    
+                                                     <a href="/v_student_profile/">
+                                                         Student Profile Details
+                                                     </a>
+                                                     <a href="#"> 
+                                                         Student Roll Number Generation
+                                                     </a>
+                                                 </div>
+                                             </div>
+                                             
+                                                <div>
+                                                    <div >
+                                                        <div class="slide-1" >
+                                                          <div  style="margin-left: 15px; margin-top: -5px; margin-right: 10px;" >
+     
+                                                             <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons icon-side" style="padding-left: 0px; margin-left: 0px;" alt="not found">
+     
+                                                          </div>
+                                                          <div href="#" class="slide-text sidetext" style="color: #000; margin-left: 0px; margin-right: 10px; margin-top: -1px;" >Internal/Pratical Exam</div>
+                                                          <!-- Dropdown content -->
+                                                          <div class="dropdown-content-1">
+                                                             <a href="/add_marks/">
+                                                                 Internal/Pratical Exam Marks Entry
+                                                               </a>
+                                                             
+                                                               <a href="subpage3.html">
+                                                                 Internal Exam Marks Detalied Status
+                                                               </a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <a href="/add_teacher/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -5px;" id="slide-active">
+                                                       
+                                                         <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Teachers Tables</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/reviwes/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;">
+                                                        
+     
+                                                         <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found" style="margin-top:5px;">
+                                                       
+                                                        <span class="slide-text" >Form Report</span>
+                                                    </div>
+                                                </a>
+                                
+                                                <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                                                <a href="/profile/" class="slide-link">
+                                                    <div class="slide">
+                                                        
+                                                         <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Profile</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/logout/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;">
+                                                        
+     
+                                                         <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                       
+                                                        <span class="slide-text" style="color: #131212;">Log out</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Close Button -->
+                                        <span class="close-btn" onclick="closeNav()" style="color: black;">×</span>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <h1>Faculty Details</h1>
+
+<div class="faculty-table-container" >
+    <center>
+        <table class="faculty-table">
+            <thead>
+                <tr>
+                    <th>Faculty</th>
+                    <th class="function">Function</th>
+                    <th>Subject</th>
+                    <th>Employed</th>
+                    <th class="action">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="facultyTableBody">
+                {% for teacher in teachers %}
+                <tr>
+                    <td>
+                        <img src="{{ teacher.photo.url }}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;">
+
+
+                        <span>{{ teacher.full_name }}</span>
+                    </td>
+                    <td class="function">{{ teacher.function }}</td>
+                    <td>{{ teacher.subject }}</td>
+                    <td>{{ teacher.hire_date }}</td>
+                    <td class="action">
+                        <button style="background-color: #f97316; color: white; border: none; padding: 5px 10px; border-radius: 5px;">Edit</button>
+                        <button style="background-color: #e3342f; color: white; border: none; padding: 5px 10px; border-radius: 5px;">Delete</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No faculty details found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </center>
+</div>
+
+            
+
+
+
+            <div class="add-teacher-form"  >
+                <center>
+                    <h2>Add New Teacher</h2>
+                </center>
+                <div class="form-container">
+                    <form method="POST" enctype="multipart/form-data" action="/add_teacher/">
+                        {% csrf_token %}
+                        <div class="image-preview">
+                            <p>Image Preview</p>
+                            <img src="{% static 'images/profile.jfif' %}" id="imagePreview" alt="Default Image" style="max-width: 150px; height: auto; margin-bottom: 15px;">
+                            <center>
+                                <div>
+                                    <label for="photo" style="background-color: #f97316; height: 17px; width: 137px; margin-top: 6px; color: #fff; border-radius: 10px; padding: 15px;">
+                                        Upload Photo
+                                    </label>
+                                    <input type="file" id="photo" name="photo" accept="image/*" required style="display: none;">
+                                </div>
+                            </center>
+                        </div>
+                    
+                        <div class="form-grid"  style="margin:10px">
+                            <label for="full_name">Full Name:</label>
+                            <input type="text" id="full_name" name="full_name" placeholder="Enter full name"  style="width:95.4%; margin-left:-1px;"required>
+                    
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" placeholder="Enter email" required>
+                    
+                            <label for="subject">Subject:</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">-- Select Subject --</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Science">Science</option>
+                                <option value="English">English</option>
+                                <option value="History">History</option>
+                                <option value="Geography">Geography</option>
+                                <option value="Computer Science">Computer Science</option>
+                            </select>
+                    
+                            <label for="experience">Experience (in years):</label>
+                            <input type="number" id="experience" name="experience" min="0" value="0" required>
+                    
+                            <label for="education">Education:</label>
+                            <input type="text" id="education" name="education" placeholder="Enter qualifications" required>
+                    
+                            <label for="function">Function:</label>
+                            <input type="text" id="function" name="function" placeholder="Enter function" required>
+                    
+                            <label for="hire_date">Hire Date:</label>
+                            <input type="date" id="hire_date" name="hire_date" required>
+                    
+                            <label for="research">Research:</label>
+                            <input type="text" id="research" name="research" placeholder="Enter research details" required>
+                    
+                            <label for="publications_national">National Publications:</label>
+                            <input type="number" id="publications_national" name="publications_national" min="0" value="0" required>
+                    
+                            <label for="publications_international">International Publications:</label>
+                            <input type="number" id="publications_international" name="publications_international" min="0" value="0" required>
+                    
+                            <label for="seminars_national">National Seminars:</label>
+                            <input type="number" id="seminars_national" name="seminars_national" min="0" value="0" required>
+                    
+                            <label for="seminars_international">International Seminars:</label>
+                            <input type="number" id="seminars_international" name="seminars_international" min="0" value="0" required>
+                    
+                            <label for="outreach">Outreach Excellence:</label>
+                            <input type="text" id="outreach" name="outreach" placeholder="Enter outreach details" required>
+                    
+                            <button type="submit">Add Teacher</button>
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const fileInput = document.getElementById("photo");
+                    const imagePreview = document.getElementById("imagePreview");
+                   
+
+                    // Event listener to handle file input change
+                    fileInput.addEventListener("change", function () {
+                        const file = fileInput.files[0];
+
+                        if (file) {
+                            const reader = new FileReader();
+
+                            // When file is loaded, update the image preview
+                            reader.onload = function (e) {
+                                imagePreview.src = e.target.result;
+                            };
+
+                            // Read the image file
+                            reader.readAsDataURL(file);
+
+                            // Optionally, update the label with the file name
+                            label.textContent = file.name;
+                        } else {
+                            // Reset to default image if no file is selected
+                            imagePreview.src = "https://via.placeholder.com/150?text=Teacher+Photo";
+                            label.textContent = "Upload Photo";
+                        }
+                    });
+                });
+
+            </script>
+            <script>
+                document.getElementById("addTeacherForm").addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+
+                    const name = document.getElementById("name").value;
+                    const func = document.getElementById("function").value;
+                    const subject = document.getElementById("subject").value;
+                    const hireDate = document.getElementById("hireDate").value;
+                    const photo = document.getElementById("photo").files[0];
+
+                    // Ensure all required fields are provided
+                    if (name && func && subject && hireDate && photo) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const facultyTableBody = document.getElementById("facultyTableBody");
+
+                            const newRow = document.createElement("tr");
+
+                            const currentDate = new Date();
+                            const hireDateObj = new Date(hireDate);
+                            const timeDiff = Math.abs(currentDate - hireDateObj);
+                            const daysEmployed = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+                            newRow.innerHTML = `
+                            <td>
+                                <div class="faculty-info">
+                                    <img src="${e.target.result}" alt="${name}" class="faculty-img">
+                                    <div>
+                                        <strong  style="font-size:10px">${name}</strong><br>
+                                        <span  style="font-size:10px">Added ${daysEmployed} days ago</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="function">${func}</td>
+                            <td style="font-size:10px">${subject}</td>
+                            <td  style="font-size:10px">${hireDate}</td>
+                            <td class="action">
+                                <button class="details-btn">View Details</button>
+                                <button class="delete-btn">Delete</button>
+                            </td>
+                        `;
+
+
+                            facultyTableBody.appendChild(newRow);
+
+                            alert("Teacher added successfully!");
+
+                            hideAddTeacherForm();
+
+                            document.getElementById("addTeacherForm").reset();
+                        };
+
+                        reader.readAsDataURL(photo);  // This reads the photo and sets the image preview
+                    } else {
+                        alert("Please fill in all the fields.");
+                    }
+
+
+                });
+                document.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('delete-btn')) {
+                        const row = event.target.closest('tr'); // Find the closest table row
+                        if (confirm('Are you sure you want to delete this entry?')) {
+                            row.remove(); // Remove the row from the table
+                        }
+                    }
+                });
+
+
+            </script>
+
+</body>
+
+</html>
+
+</div>
+</div>
+<script>
+    document.getElementById("indexpage").addEventListener("click", function () {
+
+        window.location.href = "index.html";
+    });
+    function addTask() {
+        const taskInput = document.getElementById('new-task-input');
+        const taskText = taskInput.value.trim();
+
+        if (taskText !== "") {
+            // Create a new list item
+            const ul = document.getElementById('task-list');
+            const li = document.createElement('li');
+            const taskId = "task" + (ul.children.length + 1); // Generate a unique task id
+            const input = document.createElement('input');
+            input.type = "checkbox";
+            input.id = taskId;
+
+            const label = document.createElement('label');
+            label.htmlFor = taskId;
+            label.textContent = taskText;
+
+            li.appendChild(input);
+            li.appendChild(label);
+            ul.appendChild(li);
+            taskInput.value = ""; // Clear input field
+        }
+    }
+    // Function to remove all tasks after 24 hours
+    setTimeout(function () {
+        const ul = document.getElementById('task-list');
+        ul.innerHTML = ""; // Clear all tasks
+    }, 86400000);
+</script>
+<style>
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 95%;
+        font-size: 14px;
+    }
+
+    #name,
+    #education,
+    #function,
+    #research,
+    #outreach {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 95%;
+        font-size: 14px;
+        margin-left: 0%;
+    }
+
+    td {
+        font-size: 15px;
+    }
+    .faculty-table-container{
+           
+        margin:auto
+    }
+   
+    @media (max-width:490px) {
+        .main-container{
+            margin: 0%;
+        }
+        .page-container{
+            padding-left: 0%;
+        }
+        .faculty-table-container{
+            margin-left: 5px;
+        }
+        .add-teacher-form{
+            margin: 2%;
+            padding: 6px;
+            width: 85%;
+        }
+        .faculty-img, .function, .action{
+            display: none;
+        }
+    }
+</style>
+<script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+
+        // Close the sidebar when clicking the close button
+        document.querySelector(".close-btn").addEventListener("click", closeNav);
+        function openNav() {
+    document.getElementById("mySidebar").style.width = "300px"; // Sidebar width when open
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0"; // Sidebar width when closed
+}
+
+document.getElementById("menu-btn").addEventListener("click", openNav);
+
+// Close the sidebar when clicking the close button
+document.querySelector(".close-btn").addEventListener("click", closeNav);
+
+
+
+
+    </script>
+    <script>
+        document.querySelectorAll('.slide-1').forEach(item => {
+            item.addEventListener('click', function () {
+                const dropdown = item.querySelector('.dropdown-content-1');
+    
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+    
+                // Toggle the clicked dropdown
+                if (dropdown) {
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    } else {
+                        dropdown.style.display = 'block';
+                    }
+                }
+            });
+        });
+    
+        // Close dropdown if clicking outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.slide-1')) {
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    d.style.display = 'none';
+                });
+            }
+        });
+    </script>
+    
+    <style>
+            .main-container{
+                margin-left: 0px;
+            }
+        /* Sidebar styling */
+        .sidebar-1 {
+            height: 100%;
+            width: 0; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color:white;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 20px;
+            /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000; */
+            z-index: 2;
+        }
+        .sidebar-1 .container-1 {
+            padding: 10px 20px;
+        }
+     
+        .sidebar-1 .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        .slide-1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slide-icon-box {
+            margin-right: 10px;
+        }
+
+        .slide-icons {
+            width: 24px;
+            height: 24px;
+        }
+
+        .slide-text {
+            font-size: 14px;
+            /* color: black; */
+            font-weight: normal;
+        }
+
+        .dropdown-content {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            margin-left: 20px;
+        }
+
+        .dropdown-content a {
+            text-decoration: none;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .dropdown-content a:hover {
+            color: #000;
+        }
+        .sidebar-1 a:hover {
+            color: #f1f1f1;  /* Hover text color */
+            background-color: rgba(255, 255, 255, 0.2);  /* Light hover background */
+        }
+        /* Open state for sidebar */
+        .sidebar.open {
+            width: 300px; /* Default width for larger screens */
+        }
+
+        /* Menu button styling */
+        #menu-btn {
+            /* font-size: 20px; */
+            cursor: pointer;
+            /* background-color: hsla(0, 0%, 94%, 0.925); */
+            border: none;
+            /* padding: 10px 15px; */
+            position: absolute;
+            top: 10px;
+            right:10px;
+            cursor: pointer;
+            z-index: 2;
+            color: black;
+            margin-left: 20px;
+            display: none;
+            margin-top: 22px;
+        }
+        /* .close-btn {
+            display: block;
+            text-align: right;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        } */
+        .dropdown-content-1 {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    margin-left: 20px;
+}
+.slide-1 {
+        position: relative;
+        cursor: pointer;
+        margin: 10px 0;
+        padding: 10px;
+    }
+
+    .dropdown-content-1 {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 200px;
+    }
+    
+    .dropdown-content-1 a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f0f0f0;
+    }
+
+        /* Responsive styling */
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+           
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+            .faculty-table-container{
+                margin-left:10px
+               
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        
+    </style>
+</body>
+
+</html>

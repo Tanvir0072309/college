@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'icons/spcamlogoimage.png' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'reviwesstyle.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </script>
+    <link rel="icon" type="image/x-icon" href="icons/spcamlogoimage.png">
+    <title>SPCAM Dashboard</title>
+    <style>
+        .main-container {
+            padding-right: 5px;
+            padding-left: 10px;
+            margin-left: 20PX;
+        }
+    </style>
+    <style>
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 96%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .form-container button {
+            padding: 12px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fefefe;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .question h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .question input[type="text"] {
+            margin-bottom: 10px;
+        }
+
+       
+        .review-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .review-card p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        #displayCardContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            /* Adds some space between the cards */
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+
+        #displayCardContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(306px, 1fr));
+            /* Minimum width of 306px for each card */
+            gap: 20px;
+            /* Adds space between the cards */
+            justify-items: center;
+            padding: 20px;
+        }
+
+        
+
+        #displayCardContainer {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* Exactly 3 cards per row */
+            gap: 20px;
+            /* Space between the cards */
+            padding: 20px;
+            justify-items: center;
+        }
+
+        /* Styling for the individual review cards */
+        .review-card {
+            width: 306PX;
+            /* Card width will be flexible based on grid layout */
+            height: 240px;
+            /* Fixed height */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+          
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Media Queries for Responsiveness */
+
+        /* For screens smaller than 1200px */
+        @media (max-width: 1200px) {
+            #displayCardContainer {
+                grid-template-columns: repeat(3, 1fr);
+                /* Keep 3 cards per row */
+            }
+
+            .review-card {
+                width: 90%;
+                /* Shrink card size a little for smaller screens */
+            }
+        }
+
+        /* For screens smaller than 900px */
+        @media (max-width: 900px) {
+            #displayCardContainer {
+                grid-template-columns: repeat(2, 1fr);
+                /* Show 2 cards per row */
+            }
+
+            .review-card {
+                width: 100%;
+                /* Ensure cards take full width */
+            }
+        }
+
+        /* For screens smaller than 600px */
+        @media (max-width: 600px) {
+            #displayCardContainer {
+                grid-template-columns: 1fr;
+                /* Show 1 card per row */
+            }
+
+            .review-card {
+                width: 100%;
+                /* Ensure cards take full width */
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="main-screen">
+        <div class="left-side">
+            <div class="container">
+                <div class="logo">
+                    <img src="{% static 'icons/dashboard-line.svg' %}" class="icon" alt="not found">
+                    <h1 class="sud">SPCAM Dashbord </h1>
+                </div>
+                <div class="pages">
+                    <a href="/index/" class="slide-link" >
+                        <div class="slide">
+                          <div class="slide-icon-box" >
+                            <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Dashboard</span>
+                        </div>
+                      </a>
+                      
+                      <a href="/reviwes/" class="slide-link">
+                        <div class="slide">
+                            <div class="slide-icon-box">
+                                <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                            </div>
+                            <a href="#" class="slide-text">Student Configration</a>
+                            <!-- Dropdown content -->
+                            <div class="dropdown-content">
+                                <a href="/analitics/" class="slide-link" >
+                                    Student Analitics
+                                </a>
+                                <a href="/sprofile/">
+                                   Add Student Profile Details
+                                </a>
+                                <a href="/add_subjects/">
+                                   Student Subject Mapping
+                                </a>
+                               
+                                <a href="/v_student_profile/">
+                                    Student Profile Details
+                                </a>
+                                <a href="#"> 
+                                    Student Roll Number Generation
+                                </a>
+                               
+                            
+                            </div>
+                          </div>
+                      </a>
+                      <div >
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <a href="#" class="slide-text">Internal/Pratical Exam</a>
+                          <!-- Dropdown content -->
+                          <div class="dropdown-content">
+                              <a href="/add_marks/">
+                                Internal/Pratical Exam Marks Entry
+                              </a>
+                            
+                              <a href="subpage3.html">
+                                Internal Exam Marks Detalied Status
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/add_teacher/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Teachers Tables</span>
+                        </div>
+                      </a>
+                      <a href="/reviwes/" class="slide-link" >
+                        <div class="slide" id="slide-active">
+                            <div class="slide-icon-box" id="slide-icon-box-active">
+                            <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Form Report</span>
+                        </div>
+                      </a>
+                   
+                    <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                    <a href="/profile/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Profile</span>
+                        </div>
+                      </a>
+                      <a href="/logout/" class="slide-link">
+                        <div class="slide">
+                          <div class="slide-icon-box">
+                            <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                          </div>
+                          <span class="slide-text">Log out</span>
+                        </div>
+                      </a>
+                    
+
+                    <div class="fix-ad">
+                        <div class="img-container">
+                            <div class="pro1">Tirupati Foundation Trust</div>
+                        </div>
+                        <div class="slide-x">
+                            <a href="https://tirupatipvtiti.in/about-trust/" class="pro-button">Visit our site</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="right-side">
+            <div class="main-container">
+                <div class="search-slide" style="padding-left: 10px;" >
+                    <div class="page-container" style="padding-top: 10px;">
+                        <div class="path">
+                            <div class="page-page-1">
+                                Pages
+                            </div>
+                            <div class="page-page-2">
+                                &nbsp;/ Dashboard
+                            </div>
+                        </div>
+                        <div class="page-dashboard">
+                            Form Report
+                        </div>
+                    </div>
+                    <div class="page-container-1">
+                        <div class="page-container-1-1">
+                            <div class="dropdown-fade">
+                                <button class="dropdown-btn">Today's Tasks</button>
+                                <div class="dropdown-content">
+                                  <ul id="task-list">
+                                   
+                                  </ul>
+                                  <div>
+                                    <input type="text" id="new-task-input" placeholder="Enter new task" />
+                                    <button onclick="addTask()">Add</button>
+                                    
+                                  </div>
+                                </div>
+                                </div>
+                                
+                            <input type="button" value="S P C A M" class="input-btn ob">
+                            <button id="menu-btn"
+                                style= "
+                                background-color: hsla(0, 0%, 94%, 0.925);
+                                padding-left: 0px;
+                                margin-top: 0px;
+                                margin-left: 0px;
+                               font-weight: bold;
+                                     ">☰</button>
+                                     <div id="mySidebar" class="sidebar-1" >
+                                        <div class="container-1 container-2" style=" 
+                                         padding: 0px;">
+                                            <div class="logo">
+                                             <img src="{% static 'icons/dashboard-line.svg' %}" class="slide-icons" alt="not found">
+                                                <h1 class="sud" style="margin-top: 5px;">SPCAM Dashboard</h1>
+                                            </div>
+                                            <div class="pages">
+                                                <a href="/index/" class="slide-link" >
+                                                    <div class="slide-1" style="margin: 0px ; padding-bottom:0px;
+                                                    margin-left:3px; " >
+                                                        
+                                                         <img src="{% static 'icons/speed-up-line.svg' %}" class="slide-icons" alt="not found" style="margin-left:11px;">
+                                                        
+                                                        <span class="slide-text">Dashboard</span>
+                                                    </div>
+                                                </a>
+                                                
+                                                <div class="slide-1">
+                                                 <div class="slide-icon-bo-1x" style="margin-left: 10px;">
+                                                     <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                 </div>
+                                                 <div  class="slide-text">Student Configuration</div>
+                                                 <!-- Dropdown content -->
+                                                 <div class="dropdown-content-1">
+                                                     <a href="/analitics/" class="slide-link" >
+                                                         Student Analitics
+                                                     </a>
+                                                     <a href="/sprofile/">
+                                                        Add Student Profile Details
+                                                     </a>
+                                                     <a href="/add_subjects/">
+                                                        Student Subject Mapping
+                                                     </a>
+                                                    
+                                                     <a href="/v_student_profile/">
+                                                         Student Profile Details
+                                                     </a>
+                                                     <a href="#"> 
+                                                         Student Roll Number Generation
+                                                     </a>
+                                                 </div>
+                                             </div>
+                                             
+                                                <div>
+                                                    <div >
+                                                        <div class="slide-1" >
+                                                          <div  style="margin-left: 15px; margin-top: -5px; margin-right: 10px;" >
+     
+                                                             <img src="{% static 'icons/book-2-line.svg' %}" class="slide-icons icon-side" style="padding-left: 0px; margin-left: 0px;" alt="not found">
+     
+                                                          </div>
+                                                          <div href="#" class="slide-text sidetext" style="color: #000; margin-left: 0px; margin-right: 10px; margin-top: -1px;" >Internal/Pratical Exam</div>
+                                                          <!-- Dropdown content -->
+                                                          <div class="dropdown-content-1">
+                                                             <a href="/add_marks/">
+                                                                 Internal/Pratical Exam Marks Entry
+                                                               </a>
+                                                             
+                                                               <a href="subpage3.html">
+                                                                 Internal Exam Marks Detalied Status
+                                                               </a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <a href="/add_teacher/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -5px;">
+                                                       
+                                                         <img src="{% static 'icons/bar-chart-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Teachers Tables</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/reviwes/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;" id="slide-active">
+                                                        
+     
+                                                         <img src="{% static 'icons/instance-fill.svg' %}" class="slide-icons" alt="not found" style="margin-top:5px;">
+                                                       
+                                                        <span class="slide-text" >Form Report</span>
+                                                    </div>
+                                                </a>
+                                
+                                                <h3 class="slide-text-a">ACCOUNT PAGES</h3>
+                                                <a href="/profile/" class="slide-link">
+                                                    <div class="slide">
+                                                        
+                                                         <img src="{% static 'icons/profile-line.svg' %}" class="slide-icons" alt="not found">
+                                                        
+                                                        <span class="slide-text">Profile</span>
+                                                    </div>
+                                                </a>
+                                                <a href="/logout/" class="slide-link">
+                                                    <div class="slide" style="margin-top: -15px;">
+                                                        
+     
+                                                         <img src="{% static 'icons/fingerprint-2-line.svg' %}" class="slide-icons" alt="not found">
+                                                       
+                                                        <span class="slide-text" style="color: #131212;">Log out</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Close Button -->
+                                        <span class="close-btn" onclick="closeNav()" style="color: black;">×</span>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-container">
+                    <div class="board-header">
+                        <h1>Tasks Board</h1>
+                      
+                    </div>
+
+                    <div style="display: none;">
+                        <div class="column">
+                            <h2>Research</h2>
+                            <div class="reviwes-card">
+                                <h3 id="cardTitle">Default Title</h3>
+                                <p id="cardDescription">Default Description</p>
+                                <div class="comments">
+                                    <img src="images/img-4.jpg" alt="User 1">
+                                    <img src="images/img-5.jpg" alt="User 2">
+                                    <span>14 Comments</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar"></div>
+                                    <span class="time">2h 30m</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div id="displayCardContainer">
+                        <!-- Cards will be displayed here -->
+                    </div>
+                </div>
+                <div class="form-container">
+                    <h1>Create Quiz</h1>
+                    <form id="quizForm">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" placeholder="Enter the quiz title" required>
+
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" placeholder="Enter a description for the quiz"
+                            required></textarea>
+
+                        <div id="questionsContainer">
+                            <!-- Questions will be added dynamically here -->
+                        </div>
+
+                        <button type="button" id="addQuestion">Add Question</button>
+                        <button type="submit">Submit Quiz</button>
+                    </form>
+                </div>
+
+                
+
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    <script>const questionsContainer = document.getElementById('questionsContainer');
+        const addQuestionButton = document.getElementById('addQuestion');
+        const displayCardContainer = document.getElementById('displayCardContainer'); // Create a container for cards
+        const cardTitle = document.getElementById('cardTitle');
+        const cardDescription = document.getElementById('cardDescription');
+        let questionCount = 0;
+
+        // Function to add a new question
+        function addQuestion() {
+            questionCount++;
+
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            questionDiv.innerHTML = `
+                <h3>Question ${questionCount}</h3>
+                <label for="question-${questionCount}">Question:</label>
+                <input type="text" id="question-${questionCount}" name="question-${questionCount}" placeholder="Enter the question" required>
+        
+                <label>Options:</label>
+                <input type="text" name="question-${questionCount}-option-1" placeholder="Option 1" required>
+                <input type="text" name="question-${questionCount}-option-2" placeholder="Option 2" required>
+                <input type="text" name="question-${questionCount}-option-3" placeholder="Option 3" required>
+                <input type="text" name="question-${questionCount}-option-4" placeholder="Option 4" required>
+            `;
+            questionsContainer.appendChild(questionDiv);
+        }
+
+        // Event listener for adding a question
+        addQuestionButton.addEventListener('click', addQuestion);
+
+        // Form submission
+        document.getElementById('quizForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent actual form submission
+
+            const formData = new FormData(this);
+            const quizData = {};
+            quizData.title = formData.get('title');
+            quizData.description = formData.get('description');
+            quizData.questions = [];
+
+            for (let i = 1; i <= questionCount; i++) {
+                const questionText = formData.get(`question-${i}`);
+                const options = [
+                    formData.get(`question-${i}-option-1`),
+                    formData.get(`question-${i}-option-2`),
+                    formData.get(`question-${i}-option-3`),
+                    formData.get(`question-${i}-option-4`)
+                ];
+
+                quizData.questions.push({
+                    question: questionText,
+                    options: options
+                });
+            }
+
+            // Create a new card dynamically with the submitted data
+            createCard(quizData);
+
+            // Reset the form
+            this.reset();
+            questionsContainer.innerHTML = ''; // Clear existing questions
+            questionCount = 0; // Reset the question count
+
+            console.log('Quiz Data:', quizData);
+            alert('Quiz submitted! Check the console for the data.');
+        });
+
+        // Function to create a new card dynamically
+        function createCard(quizData) {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'review-card';
+
+            cardDiv.innerHTML = `
+                
+                <div class="column">
+                        <h2>Research</h2>
+                        <div class="reviwes-card">
+                            <h3>${quizData.title}</h3>
+                            <p>${quizData.description}</p>
+                            <div class="comments">
+                                <img src="images/img-4.jpg" alt="User 1">
+                                <img src="images/img-5.jpg" alt="User 2">
+                                <span>14 Comments</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                                <span class="time">2h 30m</span>
+                            </div>
+                        </div>
+                    </div>
+            `;
+
+            displayCardContainer.appendChild(cardDiv);
+        }
+
+        document.getElementById("indexpage").addEventListener("click", function() {
+  
+  window.location.href = "index.html";
+});
+function addTask() {
+  const taskInput = document.getElementById('new-task-input');
+  const taskText = taskInput.value.trim();
+
+  if (taskText !== "") {
+      // Create a new list item
+      const ul = document.getElementById('task-list');
+      const li = document.createElement('li');
+      const taskId = "task" + (ul.children.length + 1); // Generate a unique task id
+      const input = document.createElement('input');
+      input.type = "checkbox";
+      input.id = taskId;
+
+      const label = document.createElement('label');
+      label.htmlFor = taskId;
+      label.textContent = taskText;
+
+      li.appendChild(input);
+      li.appendChild(label);
+      ul.appendChild(li);
+      taskInput.value = ""; // Clear input field
+  }
+}
+  // Function to remove all tasks after 24 hours
+  setTimeout(function() {
+    const ul = document.getElementById('task-list');
+    ul.innerHTML = ""; // Clear all tasks
+}, 86400000);
+    </script>
+      <style>
+        @media (max-width: 480px) {
+            .pmar {
+                font-size: 0.9rem;
+            }
+        
+            .text-30 {
+                font-size: 0.75rem;
+            }
+        
+            table {
+                font-size: 0.8rem;
+                width: 70%;
+            }
+        
+            .members img {
+                width: 25px;
+                height: 25px;
+            }
+        
+            .company-name img {
+                width: 18px;
+                height: 18px;
+            }
+        
+            tbody td {
+                padding: 8px 10px;
+            }
+            .project-table{
+                width: 85%;
+                height: 600px;
+                margin: 15px ;
+            }
+            .oders{
+                margin: 15px;
+            }
+            .main-container{
+                width: 90%;
+                margin: 0px;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+            .page-container{
+                padding-left: 0cap;        
+            }
+            .search-slide{
+                width: 90%;
+            }
+            .div-line{
+                display: inline;
+            }
+            .div-circle{
+              margin-left: 85%;
+             
+            }
+            .dropdown-btn{
+                display: none;
+            }
+            .dropdown-fade{
+                display: none;
+                width: 0;
+            }
+            .search-slide{
+                width: 95%;
+            }
+            .card{
+                width: 85.5%;
+            }
+            .project-card{
+                width: 82%;
+                margin-left: 15px;
+            }
+            .three-cards{
+                margin: 2px;
+            }
+            .main-container{
+                padding-top: 0px;
+            }
+            #title{
+                margin: 0%;
+            }
+            input{
+                width: 60%;
+            }
+            .form-container input[type="text"], .form-container textarea{
+                width: 80%;
+            }
+            .form-container{
+                margin: 20px;
+                width: 84%;
+            }
+        }
+    </style>
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        document.getElementById("menu-btn").addEventListener("click", openNav);
+
+        // Close the sidebar when clicking the close button
+        document.querySelector(".close-btn").addEventListener("click", closeNav);
+        function openNav() {
+    document.getElementById("mySidebar").style.width = "300px"; // Sidebar width when open
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0"; // Sidebar width when closed
+}
+
+document.getElementById("menu-btn").addEventListener("click", openNav);
+
+// Close the sidebar when clicking the close button
+document.querySelector(".close-btn").addEventListener("click", closeNav);
+
+
+
+
+    </script>
+    <script>
+        document.querySelectorAll('.slide-1').forEach(item => {
+            item.addEventListener('click', function () {
+                const dropdown = item.querySelector('.dropdown-content-1');
+    
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+    
+                // Toggle the clicked dropdown
+                if (dropdown) {
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    } else {
+                        dropdown.style.display = 'block';
+                    }
+                }
+            });
+        });
+    
+        // Close dropdown if clicking outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.slide-1')) {
+                document.querySelectorAll('.dropdown-content-1').forEach(d => {
+                    d.style.display = 'none';
+                });
+            }
+        });
+    </script>
+    
+    <style>
+            .main-container{
+                margin-left: 0px;
+            }
+        /* Sidebar styling */
+        .sidebar-1 {
+            height: 100%;
+            width: 0; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color:white;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 20px;
+            /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000; */
+            z-index: 2;
+        }
+        .sidebar-1 .container-1 {
+            padding: 10px 20px;
+        }
+     
+        .sidebar-1 .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            cursor: pointer;
+        }
+
+        .slide-1 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slide-icon-box {
+            margin-right: 10px;
+        }
+
+        .slide-icons {
+            width: 24px;
+            height: 24px;
+        }
+
+        .slide-text {
+            font-size: 14px;
+            /* color: black; */
+            font-weight: normal;
+        }
+
+        .dropdown-content {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            margin-left: 20px;
+        }
+
+        .dropdown-content a {
+            text-decoration: none;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .dropdown-content a:hover {
+            color: #000;
+        }
+        .sidebar-1 a:hover {
+            color: #f1f1f1;  /* Hover text color */
+            background-color: rgba(255, 255, 255, 0.2);  /* Light hover background */
+        }
+        /* Open state for sidebar */
+        .sidebar.open {
+            width: 300px; /* Default width for larger screens */
+        }
+
+        /* Menu button styling */
+        #menu-btn {
+            /* font-size: 20px; */
+            cursor: pointer;
+            /* background-color: hsla(0, 0%, 94%, 0.925); */
+            border: none;
+            /* padding: 10px 15px; */
+            position: absolute;
+            top: 10px;
+            right:10px;
+            cursor: pointer;
+            z-index: 2;
+            color: black;
+            margin-left: 20px;
+            display: none;
+            margin-top: 22px;
+        }
+        /* .close-btn {
+            display: block;
+            text-align: right;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        } */
+        .dropdown-content-1 {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    margin-left: 20px;
+}
+.slide-1 {
+        position: relative;
+        cursor: pointer;
+        margin: 10px 0;
+        padding: 10px;
+    }
+
+    .dropdown-content-1 {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 200px;
+    }
+    
+    .dropdown-content-1 a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f0f0f0;
+    }
+
+        /* Responsive styling */
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+           
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 1000px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 800px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 750px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+        }
+        @media (max-width: 600px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+                background-color: #f97316;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 500px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+            .dropdown-fade{
+                display: none;
+            }
+        }
+        @media (max-width: 360px) {
+            .sidebar.open {
+                width: 70%; /* Narrower for smaller screens */
+            }
+
+            .slide-text {
+                font-size: 14px;
+            }
+
+            .sidebar .close-btn {
+                font-size: 28px;
+            }
+            #menu-btn{
+                display: grid;
+            }
+        }
+       
+    </style>
+       <script>
+        const ctx = document.getElementById('userChart').getContext('2d');
+
+const userChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+      data: [2000, 2500, 3000, 2800, 3500, 4000, 4200],
+      borderColor: '#f97316',
+      borderWidth: 4,
+      fill: false,
+      backgroundColor: 'rgba(0, 123, 255, 0.2)',
+      tension: 0.4,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: true,
+          color: '#d4c5d3'
+        }
+      },
+      y: {
+        grid: {
+          drawBorder: true,
+          color: '#d4c5d3'
+        },
+        ticks: {
+          display: false
+        }
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  }
+});
+
+function toggleSwitch(element) {
+  element.classList.toggle('active');
+}
+
+
+    </script>
+</body>
+
+</html>

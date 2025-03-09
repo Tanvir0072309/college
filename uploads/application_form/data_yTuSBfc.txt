@@ -1,0 +1,42 @@
+i whant this application with this input box   
+
+1) form no. and date(side by side)
+2) class selection : BBA,BCA,BBA-ISM
+3)STUDENT DETAILS:
+	1. FULL NAME(Block Letters)
+	2. Father's Name
+	3. Father's occupation
+	4. Mother's Name
+	5. Mother's occupation
+	6. Address
+	7. Pin Code
+	8. District (Give selections with searching like options and all district)
+	9. State (Give selections with searching like options and all state)
+	10. Student's Mobile No
+	11. Parent's Mobile No
+	12. Date of Birth
+	13. Blood Group(selection with all Indian blood group)
+	14. Race & Religion(selection with all Indian Race & Religion)
+	15. Aadhar Card no
+	16. email id
+	17. Cast ( WITH SELECTIONS : ST,SC,SEBC/OBC,GENRAL,PHY.HANDI,MUSLIM MINORITY,EWS )
+	18. 12TH School Name
+	19. School's City & District
+	20. Board (with all Indian boards of education every signal and mini)
+	21. Stream : (Science, Commerce, Arts)
+	22. Total marks in 12th Exam
+	23. Obtain marks
+	24. Percentage
+	25. Today Place
+	25. Today Date
+
+4) UPLODE SECTION:(with attach file option)
+	1. Application form with photograph(must require)
+	2. Higher Secondary School Leaving Certificate(must require)
+	3. Cast Certificate/Non-Crime Layer Certificate(if Necessary) (must require)
+	4. S.S.C. and H.S.C.(must require)
+	5. Athar Card Copy(must require)
+	6. If Married Woman Applicants(Attach Marriage Certificate/ Govt. Gazette Copy) 
+	7. Other Qualifications Certificate
+
+dont change my style and design just add this details delete all input boxes witch is in the html page witch is i gave you
