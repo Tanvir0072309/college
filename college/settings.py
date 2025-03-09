@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w4a5yv1@w-9&!*4_k(l4k5!hy85c9m#e%vfy3f&zlg!-72b5+p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =['*']
+ALLOWED_HOSTS =['.vercel.app','.now.sh']
 # ALLOWED_HOSTS = ['college-17.onrender.com', 'localhost', '127.0.0.1']
 
 
@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #manually type
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    
+
 ]
 
 STATIC_ROOT = BASE_DIR / "collected_static"
