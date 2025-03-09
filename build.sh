@@ -12,5 +12,5 @@ python manage.py migrate
 
 # Create superuser if the variable is set
 if [[ $CREATE_SUPERUSER ]]; then
-    python manage.py createsuperuser --no-input --email "$DJANGO_SUPERUSER_EMAIL"
+    python manage.py createsuperuser --no-input --username "$DJANGO_SUPERUSER_USERNAME" --email "$DJANGO_SUPERUSER_EMAIL" --password "$DJANGO_SUPERUSER_PASSWORD"
 fi
