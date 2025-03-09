@@ -1,0 +1,5 @@
+Django>=4.0,<5.0         # Specify Django version
+djangorestframework       # For building APIs (if you're using DRF)
+psycopg2                  # PostgreSQL support (if you're using PostgreSQL)
+gunicorn                  # WSGI HTTP server for deployment (e.g. on Render)
+python-dotenv             # For environment variable management (if needed)
