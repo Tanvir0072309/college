@@ -3,3 +3,43 @@ djangorestframework       # For building APIs (if you're using DRF)
 psycopg2                  # PostgreSQL support (if you're using PostgreSQL)
 gunicorn                  # WSGI HTTP server for deployment (e.g. on Render)
 python-dotenv             # For environment variable management (if needed)
+asgiref                  
+diff-match-patch        
+django-3-jet             
+django-environ           
+django-grappelli       
+django-import-export    
+django-jazzmin 
+django-jet
+django-suit 
+google-api-python-client 
+heroicons
+httplib2
+MouseInfo
+numpy
+oauth2client
+packaging
+pandas
+pillow
+pip
+plotly                
+pyasn1                 
+pyasn1_modules       
+PyAutoGUI           
+PyGetWindow        
+PyMsgBox             
+pyparsing           
+pyperclip        
+PyRect            
+PyScreeze          
+python-dateutil 
+pytweening            
+pytz                
+rsa                    
+six                    
+sql                   
+sqlparse            
+tablib               
+tenacity              
+tzdata              
+uritemplate         
