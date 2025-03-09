@@ -190,3 +190,14 @@ MEDIA_URL = '/photos/'
 
 # Directory where media files are stored on disk (make sure this is correct)
 MEDIA_ROOT = BASE_DIR / 'faculty'
+
+
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()  # Read .env file
+
+# Accessing environment variables
+SECRET_KEY = env('SECRET_KEY')  # Replace with the name of your environment variable
+DEBUG = env.bool('DEBUG', default=False)
