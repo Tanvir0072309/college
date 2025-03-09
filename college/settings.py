@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-w4a5yv1@w-9&!*4_k(l4k5!hy85c9m#e%vfy3f&zlg!-72b5+p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['college.onrender.com', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -141,3 +142,6 @@ MEDIA_URL = '/photos/'
 # Directory where media files are stored on disk (make sure this is correct)
 MEDIA_ROOT = BASE_DIR / 'faculty'
 
+import os
+
+PORT = os.getenv('PORT', 8000)  # Render provides this environment variable
